@@ -82,18 +82,30 @@ Hybrid/PWA applications are web applications that appears like native applicatio
 
   - Worst UX, because won't be native to the plafform.
   - No standard frameworks. Vendor lock-in.
+  - If released vía store (Apple Store or Google Play) the release rollout process is quite similar to native applications.
 
 
 ##### Application architecture proposed
 
 Taking into account other requirements, like time to market, quick wins, etc; and also related to initial team, I propose to build an Hybrid/PWA.
 
-> TBD: Talk about all are static resources (HTML, JS, CSS) that can de deployed as static resources, like an S3 bucket.
+This applications will be composed of static resources (HTML pages, Javascript, CSS, images, etc), that will be interpreted by the browser. So, as the content is static, it can be deployed to some simple of HTTP server, or some kind of storage service, like *Amazon S3*. 
+
+As there are a lot of Javascript frameworks and libraries,with a short release cycle, I propose to use as much standards as possible, like:
+
+  - **[Web Components](https://github.com/w3c/webcomponents)**, to build the user interface components.
+  - **VanillaJS**.
+
+Because I'm not an expert about Web UI development, I don't have a strong possition about a Javascript framework, but I have read very good things about **VueJS**.
+
+The deployment target can be an **Amazon S3 bucket**. In case we detect huge load, we could use **AWS CloudFront** as CDN.
 
 
 #### Tokenized Money
 
-A set os resources to be consumed by the **Mobile Wallet** application. It will be exposed as a set of REST services.
+The *microservice* owner of customer resources, in the *Tokenized Money* domain. It will be exposed as a set of REST resources vía HTTP.
+
+The implementation of this 
 
 > TBD
 
@@ -108,11 +120,25 @@ A set os resources to be consumed by the **Mobile Wallet** application. It will 
 > TBD
 
 
+#### Audit Log
+
+
+###  
+
+![Tokenized Money on AWS](./resources/iobuilders-tokenizedmoney-aws.png)
+
+
+
 ## Team
 
-> TBD
+Based on this architectural proposition, the team should be able to:
+
+  - Work in fon
 
 
 ## Culture
 
 > TBD
+
+
+## Displaimer
