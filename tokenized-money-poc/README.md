@@ -42,11 +42,74 @@ In this diagram we'll model the different application containers involved in the
 
 #### Components
 
+> TBD
 
 ### Technology
+
+As seen in the container diagram, this system is composed of different subsystems, each of them with different requisites, there will be more than one application architecture and technology involved. 
+
+Let's split by application subsystem.
+
+#### Mobile Wallet
+
+This is the application the customers will use to interact with his/her wallet. It will be an IOS and Android mobile application. Other targets, like for example desktop, browser-based or Windows Phone, are out of scope.
+
+We have two main scenarios: a **native** or a **hybrid/PWA** application. Each of the solution have pros and cons:
+
+##### Native application
+
+This applications are native to device target. Usually are built with the platform SDK. 
+
+**PROS**
+
+  - Platform *Look&Feel*. Better usability and UX.
+
+**CONS**
+
+  - Two applications to build and maintain.
+  - Worst release rollout process.
+
+
+##### Hybrid/PWA application
+
+**PROS**
+
+  - Only one application to be built.
+
+**CONS**
+
+  - Worst UX, because won't be native to the plafform.
+
+
+##### Application architecture proposed
+
+Taking into account other requirements, like time to market, quick wins, etc; and also related to initial team, I propose to build an Hybrid/PWA.
+
+A
+
+
+#### Tokenized Money
+
+A set os REST resources to be consumed by the **Mobile Wallet** application.
+
+> TBD
+
+
+#### Wallet
+
+> TBD
+
+
+#### Identity
+
+> TBD
 
 
 ## Team
 
+> TBD
+
 
 ## Culture
+
+> TBD
