@@ -72,6 +72,8 @@ This applications are native to device target. Usually are built with the platfo
 
 ##### Hybrid/PWA application
 
+Hybrid/PWA applications are web applications that appears like native applications to the user.  
+
 **PROS**
 
   - Only one application to be built.
@@ -79,18 +81,19 @@ This applications are native to device target. Usually are built with the platfo
 **CONS**
 
   - Worst UX, because won't be native to the plafform.
+  - No standard frameworks. Vendor lock-in.
 
 
 ##### Application architecture proposed
 
 Taking into account other requirements, like time to market, quick wins, etc; and also related to initial team, I propose to build an Hybrid/PWA.
 
-A
+> TBD: Talk about all are static resources (HTML, JS, CSS) that can de deployed as static resources, like an S3 bucket.
 
 
 #### Tokenized Money
 
-A set os REST resources to be consumed by the **Mobile Wallet** application.
+A set os resources to be consumed by the **Mobile Wallet** application. It will be exposed as a set of REST services.
 
 > TBD
 
