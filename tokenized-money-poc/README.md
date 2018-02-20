@@ -123,7 +123,7 @@ The implementation of this
 #### Audit Log
 
 
-###  
+### AWS deployment diagram
 
 ![Tokenized Money on AWS](./resources/iobuilders-tokenizedmoney-aws.png)
 
