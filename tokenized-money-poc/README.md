@@ -10,13 +10,16 @@ There is a [glossary](./glossary.md), with terms and concepts used in this proje
 
 ## Architecture & technology
 
+### C4 model
 
-I've stated defining some architecture views of the system, following the [C4 Model](https://c4model.com/). 
+I've stated defining **architectural views** of the system, following the [C4 Model](https://c4model.com/). 
 
-I've only use three of the four model views, because the *class diagrmas* is tightly couplled to implementtation, so change prone during development phases, then can become waste.
+The main goal of this model is describe and comunicate architecture decissions. Also, this diagrams are a great starting point for discussions about system design during up-front sessions.
+
+I've only used three of the four model views, because the *class diagrmas* is tightly coupled to implementtation, so change prone during development phases, then can become waste.
 
 
-### Context
+#### Context
 
 In this view we define the actors (people, roles,...) involved in the system, and also we define the system boundaries. 
 
@@ -24,23 +27,26 @@ In this view we define the actors (people, roles,...) involved in the system, an
 
 | Actor    | Description   
 | ---------|:--------------------
-| Customer | A person using the system via the application
-| Inversis | Company that will provide us banking services.
+| Customer | People using the system via the application. They will create tokens from fiat, and reverse. 
+| Inversis | The company that will provide us banking services.
 
 
-### Containers
+#### Containers
 
-In this diagram we'll model the different application's containers involved in the system, defining their responsabilities, as well as their technical roles.  
+In this diagram we'll model the different application containers involved in the system, defining their responsabilities, as well as their technical roles.
+
+> In this context a container is something that hosts code and/or data. The containers are the different parts of the system needs to be running in order for the overall system to work.
 
 ![C4 Context diagram](./resources/iobuilders-tokenizedmoney-containerdiagram.png)
 
-| Actor    | Description   
-| ---------|:--------------------
-| Tokenized Money UI | 
-| Tokenized Money    | 
-| Wallet             |  
-| Identity           | 
+
+#### Components
 
 
-### Components
+### Technology
 
+
+## Team
+
+
+## Culture
