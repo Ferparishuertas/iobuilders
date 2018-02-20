@@ -8,11 +8,28 @@ The goal of this documents is response to IOBuilders Challenge based on [Tokeniz
 There is a [glossary](./glossary.md), with terms and concepts used in this project.
 
 
+## TL;DR
+
+The Tokenized Money PoC system will be composed of:
+
+  - **Mobile Wallet**, the mobile application, based on Web technologies. Build as a hybrid/PWA application.
+  - **Tokenized Money**, a REST representation of customer's resources. This system will integrate with the smart contracts and third party systems.
+  - **Wallet** and **Identity** smart contracts. Used to deal with the customer *wallet* and the *Self Sovereign Identity*.
+  - **Audit log**, as an immutable log, used to store all system events.
+
+All this subsystems will be deployed over AWS managed infrastructure.
+
+
+### Disclaimer
+
+> Reganding the proposed solution, keep in mind that I'm not a Blockchain/Ethereum expert. That's why my solution is based on a *centralized architecture* and *cloud services*, and is not a Distributed Application. Could be interesting to discuss about how to build this system as a DApp.
+
+
 ## Architecture & technology
 
 ### C4 model
 
-I've stated defining **architectural views** of the system, following the [C4 Model](https://c4model.com/). 
+I've started defining **architectural views** of the system, following the [C4 Model](https://c4model.com/). 
 
 The main goal of this model is describe and comunicate architecture decissions. Also, this diagrams are a great starting point for discussions about system design during up-front sessions.
 
@@ -44,6 +61,7 @@ In this diagram we'll model the different application containers involved in the
 
 > TBD
 
+
 ### Technology
 
 As seen in the container diagram, this system is composed of different subsystems, each of them with different requisites, there will be more than one application architecture and technology involved. 
@@ -60,11 +78,11 @@ We have two main scenarios: a **native** or a **hybrid/PWA** application. Each o
 
 This applications are native to device target. Usually are built with the platform SDK. 
 
-**PROS**
+PROS
 
   - Platform *Look&Feel*. Better usability and UX.
 
-**CONS**
+CONS
 
   - Two applications to build and maintain.
   - Worst release rollout process.
@@ -74,11 +92,11 @@ This applications are native to device target. Usually are built with the platfo
 
 Hybrid/PWA applications are web applications that appears like native applications to the user.  
 
-**PROS**
+PROS
 
   - Only one application to be built.
 
-**CONS**
+CONS
 
   - Worst UX, because won't be native to the plafform.
   - No standard frameworks. Vendor lock-in.
@@ -122,23 +140,45 @@ The implementation of this
 
 #### Audit Log
 
+> TBD
 
-### AWS deployment diagram
+
+### Deployment
+
+> TBD
 
 ![Tokenized Money on AWS](./resources/iobuilders-tokenizedmoney-aws.png)
 
 
+| Product     | Responsability   
+| ------------|:--------------------
+| Route 53    | As DNS server. 
+| Lambda      | Execution context of all resources, implemented as functions. 
+| API Gateway | Expose all functions as a microservice. 
+| S3          | To store all application static resources (HTML, Javascript, CSS, assets, etc). Used as HTTP server.
+| Redshift    | Audit log storage.
+
 
 ## Team
 
-Based on this architectural proposition, the team should be able to:
+> TBD
 
-  - Work in fon
+Regarding the team, based on the technical proposal, the team should be able to:
+
+  - Work in a full-stack style.
+  - Follow **DevOps** philosophy.
+
+> TBD continue
+
+So, given this requirements, the team needs are: 
+
+  - Expertise on AWS and automatization.
+  - Seniority on UI development. Good skills on UX. 
+  - A few backend developers, with strong knowledge in selected programming languages. Also with good learning skills, to be able to work with smart contracts (Solidity), blockchain, Ethereum, etc. 
+
+> TBD continue
 
 
 ## Culture
 
-> TBD
-
-
-## Displaimer
+> TBD. Talk about **BizSecDevOps** teams, product full-stack ownership, etc.
