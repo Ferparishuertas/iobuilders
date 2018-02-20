@@ -16,7 +16,7 @@ I've stated defining some architecture views of the system, following the [C4 Mo
 
 ### Context Diagram
 
-In this view we can see roles (people, roles,...) involved in the system, and also we define the system boundaries. 
+In this view we define the actors (people, roles,...) involved in the system, and also we define the system boundaries. 
 
 ![C4 Context diagram](./resources/iobuilder-tokenizedmoney-contextdiagram.png)
 
