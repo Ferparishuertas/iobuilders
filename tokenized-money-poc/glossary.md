@@ -11,4 +11,4 @@ Glossary
 | acquirer   | A company that can operate with e-money
 | EDE        | *Entidad de dinero electrónico* (spanish). A company with a license to operate with *e-money*.
 | PWA        | *[Progressive Web Application](https://en.wikipedia.org/wiki/Progressive_web_app)*, are web applications that appear as native applications to user.
-| 
+| DApp       | *Distributed Application*. This is how the blockchain based applications are called.
