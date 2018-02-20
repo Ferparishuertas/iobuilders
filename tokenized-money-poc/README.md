@@ -16,7 +16,7 @@ I've stated defining some architecture views of the system, following the [C4 Mo
 I've only use three of the four model views, because the *class diagrmas* is tightly couplled to implementtation, so change prone during development phases, then can become waste.
 
 
-## Context
+### Context
 
 In this view we define the actors (people, roles,...) involved in the system, and also we define the system boundaries. 
 
