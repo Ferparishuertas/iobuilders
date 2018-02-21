@@ -3,26 +3,26 @@ Tokenized Money PoC
 
 ## Goal
 
-The goal of this documents is response to IOBuilders Challenge based on [Tokenized Money PoC](https://github.com/Ferparishuertas/iobuilders/wiki/IoBuilders-POC).
+This documents is the response to IOBuilders Challenge based on [Tokenized Money PoC](https://github.com/Ferparishuertas/iobuilders/wiki/IoBuilders-POC).
 
-There is a [glossary](./glossary.md), with terms and concepts used in this project.
+There is a [glossary of terms and concept](./glossary.md) used in this document.
 
 
 ## TL;DR
 
-The Tokenized Money PoC system will be composed of:
+The Tokenized Money PoC system will be composed of five subsystems:
 
   - **Mobile Wallet**, the mobile application, based on Web technologies. Build as a hybrid/PWA application.
-  - **Tokenized Money**, a REST representation of customer's resources. This system will integrate with the smart contracts and third party systems.
+  - **Tokenized Money**, the REST representation of customer's resources. This subsystem will, also, integrate with Ethereum, for smart contracts, and Inversis, as third party bakning system.
   - **Wallet** and **Identity** smart contracts. Used to deal with the customer *wallet* and the *Self Sovereign Identity*.
   - **Audit log**, as an immutable log, used to store all system events.
 
-All this subsystems will be deployed over AWS managed infrastructure.
+All subsystems will be deployed over Amazon Web services, using managed infrastructure and services.
 
 
 ### Disclaimer
 
-> Reganding the proposed solution, keep in mind that I'm not a Blockchain/Ethereum expert. That's why my solution is based on a *centralized architecture* and *cloud services*, and is not a Distributed Application. Could be interesting to discuss about how to build this system as a DApp.
+> Reganding this solution, keep in mind that I'm not a Blockchain/Ethereum/Smart Contracts expert. That's why my solution is based on a *centralized architecture* and *cloud services*, and is not designed as Distributed Application. Could be interesting open a discussion about how to build this system as a DApp.
 
 
 ## Architecture & technology
@@ -31,14 +31,14 @@ All this subsystems will be deployed over AWS managed infrastructure.
 
 I've started defining **architectural views** of the system, following the [C4 Model](https://c4model.com/). 
 
-The main goal of this model is describe and comunicate architecture decissions. Also, this diagrams are a great starting point for discussions about system design during up-front sessions.
+The main goal of this model is describe and comunicate architecture decissions. Also, this diagrams are a great starting point for discussions about system design during up-front sessions, and also as shared vision documentation in development phases.
 
 I've only used three of the four model views, because the *class diagrmas* is tightly coupled to implementtation, so change prone during development phases, then can become waste.
 
 
 #### Context
 
-In this view we define the actors (people, roles,...) involved in the system, and also we define the system boundaries. 
+This view defines the actors (people, roles, third party systems...) involved in the system. Also it defines the system boundaries. 
 
 ![C4 Context diagram](./resources/iobuilders-tokenizedmoney-contextdiagram.png)
 
@@ -50,11 +50,20 @@ In this view we define the actors (people, roles,...) involved in the system, an
 
 #### Containers
 
-In this diagram we'll model the different application containers involved in the system, defining their responsabilities, as well as their technical roles.
+In this diagram models the application containers involved in the system, defining their responsabilities, as well as their technical roles.
 
 > In this context a container is something that hosts code and/or data. The containers are the different parts of the system needs to be running in order for the overall system to work.
 
 ![C4 Context diagram](./resources/iobuilders-tokenizedmoney-containerdiagram.png)
+
+
+There are five main subsystems:
+
+  - **Mobile Wallet**, as the customer UI application.
+  - **Tokenized Money**, as REST services layer that represents the customer resources.
+  - **Wallet**, the smart contract that handles the customer money.
+  - **Identity**, the smart contract that deal with *Self Sovereign Identity*
+  - **Audit log**, as the subsystem that deals with an immutable actions log.-  
 
 
 #### Components
@@ -64,9 +73,10 @@ In this diagram we'll model the different application containers involved in the
 
 ### Technology
 
-As seen in the container diagram, this system is composed of different subsystems, each of them with different requisites, there will be more than one application architecture and technology involved. 
+As seen in the container diagram, this system is composed of five different subsystems, each of them with different requisites, there will be more than one application architecture and technology involved. 
 
 Let's split by application subsystem.
+
 
 #### Mobile Wallet
 
@@ -125,7 +135,9 @@ The *microservice* owner of customer resources, in the *Tokenized Money* domain.
 
 The implementation of this 
 
-> TBD
+> TBD Talk about Lambdas expossed via API Gateway. Possible languages are Go, Java and Javascript.
+
+> TBD Talk about why lambdas and not microservices. Independent testing, rollout, life-cycle, ...
 
 
 #### Wallet
@@ -145,7 +157,7 @@ The implementation of this
 
 ### Deployment
 
-> TBD
+> TBD Description and include **CloudWatch** and **SNS/SQS as dead letter** on diagram. Also **add customer to diagram** getting resources from *API gateway* and *S3 bucket* :)
 
 ![Tokenized Money on AWS](./resources/iobuilders-tokenizedmoney-aws.png)
 
@@ -157,6 +169,13 @@ The implementation of this
 | API Gateway | Expose all functions as a microservice. 
 | S3          | To store all application static resources (HTML, Javascript, CSS, assets, etc). Used as HTTP server.
 | Redshift    | Audit log storage.
+| SQS/SNS     | Dead letter queue.
+| CloudWatch  | To deal with system logs.
+
+
+### Security
+
+> TBD Talk about HTTP2/HTTPS only, JWT tokens, AWS VPCs and roles, etc.
 
 
 ## Team
@@ -170,15 +189,17 @@ Regarding the team, based on the technical proposal, the team should be able to:
 
 > TBD continue
 
-So, given this requirements, the team needs are: 
+So, given this requirements, the team needs roles that are: 
 
-  - Expertise on AWS and automatization.
+  - Have expertise on AWS and automatization.
   - Seniority on UI development. Good skills on UX. 
-  - A few backend developers, with strong knowledge in selected programming languages. Also with good learning skills, to be able to work with smart contracts (Solidity), blockchain, Ethereum, etc. 
+  - Backend developers, with strong knowledge in selected programming languages. Also with good learning skills, to be able to work with smart contracts (Solidity), blockchain, Ethereum, etc. 
 
 > TBD continue
 
 
 ## Culture
 
-> TBD. Talk about **BizSecDevOps** teams, product full-stack ownership, etc.
+> TBD. Talk about **BizSecDevOps** teams, product full-stack ownership, responsability, autonomy, pair/mob programming, TDD/BDD,...
+
+> TBD Keep the systems up and running
