@@ -1,6 +1,9 @@
 Glossary
 ========
 
+This page contains the definition on terms used in the [Tokenized Money PoC](./README.md) challenge response.
+
+
 | Term        | Description   
 | -----------|:--------------------
 | Fiat       | A pejorative way to talk about *normal* currencies. 
