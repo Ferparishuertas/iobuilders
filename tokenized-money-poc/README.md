@@ -133,21 +133,20 @@ The deployment target can be an **Amazon S3 bucket**. In case we detect huge loa
 
 The *microservice* handles the customer resources, in the *Tokenized Money* domain. It will be exposed as a set of REST resources vía HTTP. 
 
-To enable elastic scalability, independent rollout and going to continous delivery each resource action must be stateless. Each resource action will be implemented as a **function**, deployed as an **AWS Lambda**.
+To enable elastic scalability, independent rollout and going to continous delivery each resource action must be stateless. Each resource action will be implemented as a **function**, deployed as an **[AWS Lambda](https://aws.amazon.com/lambda/)**.
 
 This Lambda functions will be exposed vía **AWS API Gateway**.
 
-There are different languages to implement AWS Lambda functions. My proposal is to use, if is possible, static languages.
+There are different languages (JavaScript, Python, Java 8, C# and Go) to implement AWS Lambda functions. My proposal is to use, if is possible, static languages.
 
   - The compiler perform sintaxt checks.
   - Less test needed.
-  - Javascript, in Lambda service use an *quite old* node version. 
-
+  - Javascript, in Lambda service use *a bit old* Node.js version. 
 
 So, for Lambda functions, I propose:
 
-  - [Go](https://golang.org/)
-  - [Java](https://java.com/)
+  - [Go](https://golang.org/). Small native static linked binaries. Very fast execution. Resource optimimzation (memory, CPU, storage, etc), so cost can be reduced.
+  - [Java](https://java.com/). A big development commutity. It could ease hiring. 
 
 
 #### Wallet
