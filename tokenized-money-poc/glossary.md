@@ -15,3 +15,4 @@ This page contains the definition on terms used in the [Tokenized Money PoC](./R
 | EDE        | *Entidad de dinero electrónico* (spanish). A company with a license to operate with *e-money*.
 | PWA        | *[Progressive Web Application](https://en.wikipedia.org/wiki/Progressive_web_app)*, are web applications that appear as native applications to user.
 | DApp       | *Distributed Application*. This is how the blockchain based applications are called.
+| AWS        | Amazon Web Services. The Amazon cloud computing platform.

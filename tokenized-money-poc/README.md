@@ -124,20 +124,30 @@ As there are a lot of Javascript frameworks and libraries,with a short release c
   - **[Web Components](https://github.com/w3c/webcomponents)**, to build the user interface components.
   - **VanillaJS**.
 
-Because I'm not an expert about Web UI development, I don't have a strong possition about a Javascript framework, but I have read very good things about **VueJS**.
+Because I'm not an expert about Web UI development, I don't have a strong possition about a Javascript framework, but I have read very good things about **VueJS**. 
 
 The deployment target can be an **Amazon S3 bucket**. In case we detect huge load, we could use **AWS CloudFront** as CDN.
 
 
 #### Tokenized Money
 
-The *microservice* owner of customer resources, in the *Tokenized Money* domain. It will be exposed as a set of REST resources vía HTTP.
+The *microservice* handles the customer resources, in the *Tokenized Money* domain. It will be exposed as a set of REST resources vía HTTP. 
 
- 
+To enable elastic scalability, independent rollout and going to continous delivery each resource action must be stateless. Each resource action will be implemented as a **function**, deployed as an **AWS Lambda**.
 
-> TBD Talk about Lambdas expossed via API Gateway. Possible languages are Go, Java and Javascript.
+This Lambda functions will be exposed vía **AWS API Gateway**.
 
-> TBD Talk about why lambdas and not microservices. Independent testing, rollout, life-cycle, ...
+There are different languages to implement AWS Lambda functions. My proposal is to use, if is possible, static languages.
+
+  - The compiler perform sintaxt checks.
+  - Less test needed.
+  - Javascript, in Lambda service use an *quite old* node version. 
+
+
+So, for Lambda functions, I propose:
+
+  - [Go](https://golang.org/)
+  - [Java](https://java.com/)
 
 
 #### Wallet
@@ -152,25 +162,27 @@ The *microservice* owner of customer resources, in the *Tokenized Money* domain.
 
 #### Audit Log
 
-> TBD
+This subsystem should store a immutable actions audit log. This log will allow to perform after-the-fact security analisys, a key point on financial systems.
 
 
 ### Deployment
 
-> TBD
+Based on the architecture and technology proposal, deployment on A
 
 ![Tokenized Money on AWS](./resources/iobuilders-tokenizedmoney-aws.png)
 
 
+The initital list of AWS products to use is:
+
 | Product     | Responsability   
 | ------------|:--------------------
-| Route 53    | As DNS server. 
-| Lambda      | Execution context of all resources, implemented as functions. 
-| API Gateway | Expose all functions as a microservice. 
-| S3          | To store all application static resources (HTML, Javascript, CSS, assets, etc). Used as HTTP server.
-| Redshift    | Audit log storage.
-| SQS         | Dead letter queue. Recovery queue to recover unprocessed request when a lambda function fails (timeout, etc).
-| CloudWatch  | To deal with system logs.
+| Route 53    | As **DNS** server. 
+| Lambda      | Execution context of all resources actions, implemented as **functions**. 
+| API Gateway | Expose all functions as a **microservice**. 
+| S3          | To store all application static **resources** (HTML, Javascript, CSS, assets, etc). Used as *public hosting*.
+| Redshift    | The **Audit log** storage.
+| SQS         | **Dead letter** queue service. It's a recovery queue to get unprocessed request when a lambda function fails (timeout, etc).
+| CloudWatch  | To deal with **system and application logs**.
 
 
 ### Security
@@ -178,7 +190,6 @@ The *microservice* owner of customer resources, in the *Tokenized Money* domain.
 This system is working with financial assets, so strong security is a must.
 
 > TBD Talk about HTTP2/HTTPS only, OAuth2, JWT tokens, AWS VPCs and roles, etc.
-
 
 > TDB Use external security teams for penetration testing.
 
@@ -209,4 +220,4 @@ So, given this requirements, and keeping in mind the team needs roles with some 
   - Be able to work following some development approach, like pair/mod programming, TDD, BDD, etc.
   - Define product metrics like OKRs, PKIs, etc.
 
-
+> **Keep the system up and running** 
