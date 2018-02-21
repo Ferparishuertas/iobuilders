@@ -133,7 +133,7 @@ The deployment target can be an **Amazon S3 bucket**. In case we detect huge loa
 
 The *microservice* owner of customer resources, in the *Tokenized Money* domain. It will be exposed as a set of REST resources vía HTTP.
 
-The implementation of this 
+ 
 
 > TBD Talk about Lambdas expossed via API Gateway. Possible languages are Go, Java and Javascript.
 
@@ -175,7 +175,19 @@ The implementation of this
 
 ### Security
 
-> TBD Talk about HTTP2/HTTPS only, JWT tokens, AWS VPCs and roles, etc.
+This system is working with financial assets, so strong security is a must.
+
+> TBD Talk about HTTP2/HTTPS only, OAuth2, JWT tokens, AWS VPCs and roles, etc.
+
+
+> TDB Use external security teams for penetration testing.
+
+
+### Open points
+
+  - How to deal with unprocessed request stored in the dead letter queue? Something to be defined.
+  - Will be needed some kind of *audit log viewer*.
+  - Will this system need some kind of backoffice/administration tool, to deal with customer issues?  
 
 
 ## Team & Culture
@@ -183,7 +195,7 @@ The implementation of this
 Regarding the team, based on this technical proposal, the team should be able to:
 
   - Work in a **full-stack** style. At the begining it will be a small team, so the team members should be able to understand and work in all application layers
-  - Follow **BizDevSecOps** (business, delevopment, security and Operations) philosophy. The team should be responsible about all the project life-cicyle, and also works in an autonomous way. 
+  - Follow **BizDevSecOps** (business, delevopment, security and Operations) philosophy. Accountable for the product life-cicyle, and be able to work autonomously. 
   - Have an **agile** mindset. Inspect and adapt!!
 
 > **You Build It, You Run it!** 
@@ -196,3 +208,5 @@ So, given this requirements, and keeping in mind the team needs roles with some 
   - Ideally blockchain/smartcontract knowledge. If is not possible, good learning skills, to be able to learn and work with smart contracts, blockchain, Ethereum, etc.
   - Be able to work following some development approach, like pair/mod programming, TDD, BDD, etc.
   - Define product metrics like OKRs, PKIs, etc.
+
+
