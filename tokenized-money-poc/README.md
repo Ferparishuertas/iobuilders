@@ -157,7 +157,7 @@ The implementation of this
 
 ### Deployment
 
-> TBD Description and include **CloudWatch** and **SNS/SQS as dead letter** on diagram. Also **add customer to diagram** getting resources from *API gateway* and *S3 bucket* :)
+> TBD
 
 ![Tokenized Money on AWS](./resources/iobuilders-tokenizedmoney-aws.png)
 
@@ -169,7 +169,7 @@ The implementation of this
 | API Gateway | Expose all functions as a microservice. 
 | S3          | To store all application static resources (HTML, Javascript, CSS, assets, etc). Used as HTTP server.
 | Redshift    | Audit log storage.
-| SQS/SNS     | Dead letter queue.
+| SQS         | Dead letter queue. Recovery queue to recover unprocessed request when a lambda function fails (timeout, etc).
 | CloudWatch  | To deal with system logs.
 
 
@@ -178,28 +178,21 @@ The implementation of this
 > TBD Talk about HTTP2/HTTPS only, JWT tokens, AWS VPCs and roles, etc.
 
 
-## Team
+## Team & Culture
 
-> TBD
+Regarding the team, based on this technical proposal, the team should be able to:
 
-Regarding the team, based on the technical proposal, the team should be able to:
+  - Work in a **full-stack** style. At the begining it will be a small team, so the team members should be able to understand and work in all application layers
+  - Follow **BizDevSecOps** (business, delevopment, security and Operations) philosophy. The team should be responsible about all the project life-cicyle, and also works in an autonomous way. 
+  - Have an **agile** mindset. Inspect and adapt!!
 
-  - Work in a full-stack style.
-  - Follow **DevOps** philosophy.
+> **You Build It, You Run it!** 
 
-> TBD continue
+So, given this requirements, and keeping in mind the team needs roles with some technical skills, like: 
 
-So, given this requirements, the team needs roles that are: 
-
-  - Have expertise on AWS and automatization.
+  - Expertise on AWS and automatization.
   - Seniority on UI development. Good skills on UX. 
-  - Backend developers, with strong knowledge in selected programming languages. Also with good learning skills, to be able to work with smart contracts (Solidity), blockchain, Ethereum, etc. 
-
-> TBD continue
-
-
-## Culture
-
-> TBD. Talk about **BizSecDevOps** teams, product full-stack ownership, responsability, autonomy, pair/mob programming, TDD/BDD,...
-
-> TBD Keep the systems up and running
+  - Backend developemt knowledge in selected programming languages. 
+  - Ideally blockchain/smartcontract knowledge. If is not possible, good learning skills, to be able to learn and work with smart contracts, blockchain, Ethereum, etc.
+  - Be able to work following some development approach, like pair/mod programming, TDD, BDD, etc.
+  - Define product metrics like OKRs, PKIs, etc.
