@@ -33,7 +33,7 @@ I've started defining **architectural views** of the system, following the [C4 M
 
 The main goal of this model is describe and comunicate architecture decissions. Also, this diagrams are a great starting point for discussions about system design during up-front sessions, and also as shared vision documentation in development phases.
 
-I've only used three of the four model views, because the *class diagrmas* is tightly coupled to implementtation, so change prone during development phases, then can become waste.
+I've only used two of the four model views: context and comtainers. Components are out of scope at this moment, because to define the components some use cases might be defined. The *class diagrmas* is tightly coupled to implementtation, so change prone during development phases, then can become waste.
 
 
 #### Context
@@ -64,11 +64,6 @@ There are five main subsystems:
   - **Wallet**, the smart contract that handles the customer money.
   - **Identity**, the smart contract that deal with *Self Sovereign Identity*
   - **Audit log**, as the subsystem that deals with an immutable actions log.-  
-
-
-#### Components
-
-> TBD
 
 
 ### Technology
@@ -190,6 +185,8 @@ This system is working with financial assets, so strong security is a must.
 
 > TBD Talk about HTTP2/HTTPS only, OAuth2, JWT tokens, AWS VPCs and roles, etc.
 
+> TBD Talk about security in Blockchain/Ethereum environments.
+
 > TDB Use external security teams for penetration testing.
 
 
@@ -217,6 +214,6 @@ So, given this requirements, and keeping in mind the team needs roles with some 
   - Backend developemt knowledge in selected programming languages. 
   - Ideally blockchain/smartcontract knowledge. If is not possible, good learning skills, to be able to learn and work with smart contracts, blockchain, Ethereum, etc.
   - Be able to work following some development approach, like pair/mod programming, TDD, BDD, etc.
-  - Define product metrics like OKRs, PKIs, etc.
+  - Define product metrics like SLAs, OKRs, PKIs, etc.
 
 > **Keep the system up and running** 
