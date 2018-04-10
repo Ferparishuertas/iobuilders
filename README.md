@@ -42,7 +42,7 @@
 * API's
 * Cloud solutions: Microsoft Azure, AWS, Heroku, Google Cloud, Salesforce…
 * Demonstrating knowledge of full stack development with comfort and familiarity of continuous integration tooling such as Docker, Jenkins or Artifactory is a plus.
-*Ethereum Smart contracts and solidity is a plus.
+* Ethereum Smart contracts and solidity is a plus.
 
 ### 1 x UX Designer:
 
