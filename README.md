@@ -44,7 +44,7 @@ As it's a quite small team and everyone is senior I don't think there is need fo
 
 General skills for everyone: communication, being independent but working in team accomplish our goals helping each other if needed, being able to understand requisites easily, debugging/profiling skills, in general be someone that loves what you do and create something that you feel proud of 
 
-### (3) Go into the details, about which tech/business methodologies, tools, etc...
+### (3) Go into the details, about which tech/business methodologies, tools, etc...
 
 SCRUM 
 
