@@ -1,0 +1,117 @@
+The solution is proposed taken in account that it is POC, not a production blockchain implementation. 
+Being a proof of concept, I will considered that we are going to prioritized speed of development of functionalities before other requirements such as performance, security, etc.
+
+
+Risk in the POC:
+- Being too expensive-> keeping a small team
+- A team without all the knowledge needed to implement it (some knowledge of blockchain inside the team)
+- Not scalable -> AWS
+- Complex interface. Users unable to interact with it -> UX designer
+- Excessing the time proposed (4 months)
+  -> having a good methodology and planning 
+  -> keeping it as simplest as possible
+  -> prioritized speed of development
+
+
+
+**(1) What are your thoughts, ideas about tech, architecture with this context?**
+
+  ### Mobile
+   The goal is to develop an app in iOS and Android consuming the less amount of time and resources possible, that’s why I propose to use a framework 
+   that allow us to write code that works in both platforms( React Native, Flutter, Xamarín…). Between this group I would chose React Native for diferent reasons:
+   - It uses JavaScript that is an easy language program to learn (in Flutter is used Dart and in Xamarin C#). 
+   - Another advantage of this language is that counts with a huge community that can help us because there is a lot of OpenSource available and documentation.
+   - In React Native you can reuse almost a 90% of the code.
+
+ ### Arquitecture and Backend
+  The arquitecture of the POC will be monolith to allow rapid product iteration. Even microsirves right now are trendy are very implemented, I think that
+  if the monolith is well implemented and structures can be a better option because we want a quick launch and is easier debugging and testing, easier to depploy(just managing one deployment)
+  and is simpler to develop (is the standard way of building apps son any engineer has the knowledge and capabilities of building it-> easier to find engineers with 
+  expertise). 
+  In orther to implement a good molotih is essential to define different context, business services and partner services (ex. Inversis). The communication between services can be done using DTO
+  (Data Transfer Object)
+  In the case that in the future we would want to turn the POC into a blockchain implementation a microservices arquitecture would be considered because it provides
+  different advantages in the long term  that's why the language I would chose would be Java as it has the framework Spring Boot which help us to development and also I would chose that language
+  for other reasons as:
+    - It has the web3j library to interact with the Ethereum network and the smart contracts
+    - It is supported by a large community
+    - Easier to find engineers with this knowledge(most popular language)
+
+  I would propose to use a Blockchain-as-a-Service Provider (BaaS) this would help us with the technical complexities and the lack of expertise in the domain, 
+  provaiding the could infrastructure for development and deployment without having to worry about startup and overhead costs. Limiting, also, the number of risks to deal with.
+  The BaaS assumes the responsability of keeping the infrastructure up and running, mantaining all the artifacts and handling security issues. 
+  I will suggest using either Azure or AWS platforms (they both can host Ethereum or Quorum). 
+  Implementing the templates that this platforms provide we don't need to lose time in manual configuration of the blockchain.
+  This approach would save us time and resources because the team could focus only in the development.
+  I would choose AWS platform due to all the other service that it can provide us as CloudTrail and CloudWatch...
+    - AWS CloudWatch delivers actionable data and insights to monitor the application, respond to system-wide performance changes, optimize resource usage, 
+      and achieve a unified view of the health of the operations.
+    - AWS CloudTrail is a service that enables you to perform governance, compliance, operational, and risk audits.
+    - Redshift logs information about connections and user activities in the database. These logs help you to monitor the database for security and troubleshooting purposes.
+
+  CI / CD tools (Jenkins or GitLab) for automatic deployments on dockers and code review (SonarQ).
+
+**(2) Describe the skills, roles and team size, that you think is the best fit for this project.**
+
+  ***Skills:***
+    Eager to learn
+    Proactive
+    Able to work in a team
+    Open, accessible and flexible people
+    Full Stack mentality
+
+ ***Roles:***
+As is POC the team shold be small and as preferred all of the members of team would be starting at the same time in the project- 
+if that’s not possible having a smooth onboarding process for new hirings is required (onboarding presentations and trainings)
+    - 2 Backend developer and API-> Java, Rest Webservices. Desiderable some knowledge in JavaScript
+    - 1 Blockchain expert-> writing smart contracts and dealing with the blockchain development. Familiar with continuos integration
+    - 1 Frontend/mobile developer whose duty would be to develop the mobile app and ideally help the Full Stack developers with the APIs.
+    - UX designer-> visual resources of the application
+    - 1 Scrum Master-> responsible of the team. Assuring that all the stories, functionalities and the communication between the members of the team is clear. 
+      This person will also have a backend profile and will help the team in the development
+    - 1 Product Owner-> knows the product and all the functionalities. Writing specs, prioritazing functionalities. QA.  
+
+      ->  Fullstack profiles required.
+      ->	Expertise on AWS and automatization
+      ->  Quality Assurance
+
+**(3) Go into the details, about which tech/business methodologies, tools, etc..., you think fit best to the scenario, and the culture you like and makes sense
+to apply on this company**    
+  ## Culture and methodology
+      - Agile and Lean mindset. Scrum methodology with sprints of 2 weeks long. Kaizen ->continuous improvement
+      - Daily meeting everyday-> what have you done yesterday, what are you going to do today, are you block (any problem) – 2 minutes per person
+      - Retrospective point every spring for analysis of what have being done good, what need to be implemented, behaviors to be stopped and describing the actions
+        to improve in the next spring.
+      - Planning-> every spring the team will dedicate one day to work in the planning-> making clear all the funcionalities to develop, designing solutions and
+        estimating the complexity and time of each taks( every member should be able to work in any of the tasks)
+      - E-learning mindset
+      - Developing having in mind the SOLID principles (Single responsibility, Open-closed, Liskov substitution, Interface segregation and Dependency inversión). 
+        Clear tech debt when posible-> refactoring in mind
+
+   ## Good practices
+     -  Technical point (reserve every day and use it if it’s needed)
+     -  TDD as much as possible (Test Driven Development)
+     -  Pair code review
+     -  Having a guideline in which is described the procedure for creating a branch (name protocol), notify this in Jira, definition of ready, done, how to test, 
+        make a merge request, and revision of code… 
+     -  For any new develop assuring at least an 80% of coverage (Junits, Integration Test..) Never add a functionality without Junit o Integration Test.
+     -  Git flow: Branch on each user story
+     -  Two main branches, master and develop
+
+    ## Tools
+     -  Wiki collaborative for sharing knowledge
+     -  Using of Sonar for ensuring quality and coverage of the code before pushing.
+     -  Teams for communication with different groups for any of the purposes.
+     -  CI/CD to do the automatic deployment.
+     -  Git-> pull request. Two main branches, master and develop
+     -  SonarQube for assuring coverage and quality of code
+     -  Jira visualization and issue-tracking tool
+
+     ## Others
+     -  Flexible schedule
+     -  Team building time. Creating good relationships inside the team
+     -  Remote work friendly
+     -  Incentive plan and training plan
+     -  Workshops, conferences…
+     -  "Work hard, okay hard mentality"
+
