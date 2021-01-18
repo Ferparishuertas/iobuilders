@@ -28,12 +28,4 @@
 	"postalCode": "",
 	"country": 724,
 	"level": 4
-}],
-"officialDocuments": [{
-	"type": 1,
-	"country": 724,
-	"value": "5040302010A",
-	"validUntil": "2021-12-31",
-	"level": 0,
-	"description": null
 }]
