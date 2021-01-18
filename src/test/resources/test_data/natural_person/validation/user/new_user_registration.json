@@ -1,0 +1,59 @@
+{
+    "type": "person",
+    "personalInfo": {
+        "name": "Ana",
+        "middleName" : "María",
+        "surname1": "Ruíz",
+        "surname2": "Sanabria",
+        "birthdate": "1982-01-15",
+        "sex": 2,
+        "mainNationality": 724,
+        "otherNationalities": [],
+        "contactChannels": [{
+            "channel": "telephone",
+            "type": 1,
+            "value": "+349100002",
+            "level": 3
+        },
+        {
+            "channel": "telephone",
+            "type": 2,
+            "value": "+3466500002",
+            "level": 1
+        },
+        {
+            "channel": "email",
+            "value": "anamaria@nomail.net",
+            "level": 0
+        },
+        {
+            "channel": "messenger",
+            "type": 1,
+            "value": "+3466500002",
+            "level": 2
+        },
+        {
+            "channel": "address",
+            "type": null,
+            "value": "C/ NoName, 8, Madrid",
+            "postalCode": "28001",
+            "country": 724,
+            "level": 4
+        }],
+        "officialDocuments": [{
+            "type": 1,
+            "country": 724,
+            "value": "5040302012A",
+            "validUntil": "2021-12-31",
+            "level": 0,
+            "description": null
+        }]
+    },
+    "loginInfo": {
+        "alias": "anamaria",
+        "password": "anaMARIA123!",
+        "email": "anamaria@nomail.net",
+        "mobile": "+3466500002",
+        "description": "This is a natural person user."
+    }
+}
