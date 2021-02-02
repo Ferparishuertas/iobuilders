@@ -39,18 +39,29 @@ public class UserServiceImpl implements UserService {
 			throw new IllegalArgumentException("One of them at least, the login or the email, must be non null.");
 		}
 		boolean result = false;
-		if(loginAlias != null) {
-			Optional<User> opUser = userRepository.findOneByLoginAlias(loginAlias);
-			if(opUser.isPresent()) {
-				result = opUser.get().getLoginEmail().equals(loginEmail);
-			}
-		} else if(loginEmail != null) {
-			Optional<User> opUser = userRepository.findOneByLoginEmail(loginEmail);
-			if(opUser.isPresent()) {
-				result = opUser.get().getLoginAlias().equals(loginAlias);
-			}
+		if(loginAlias != null && loginEmail != null) {
+			result = userRepository.existsByLoginAliasAndLoginEmail(loginAlias, loginEmail);
+		} else if(loginAlias != null) {
+			result = userRepository.existsByLoginAlias(loginAlias);
+		} else {
+			result = userRepository.existsByLoginEmail(loginEmail);
 		}
 		return result;
+	}
+	
+	@Override
+	public Boolean isAdminUser(String loginAlias) throws UserServiceException {
+		Optional<User> opUser = userRepository.findOneByLoginAlias(loginAlias);
+		if(opUser.isEmpty()) {
+			throw new UserServiceException(
+				"General user not found for checking admin grants.",
+				UserServiceError.USER_NOT_FOUND);
+		}
+		return opUser.get().getAuthorities()
+						   .stream()
+						   .filter(x -> "ROLE_ADMIN".equals(x.getAuthority()))
+						   .count() > 0;
+
 	}
 	
 	@Override

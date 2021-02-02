@@ -44,7 +44,7 @@ public class APIControllerHelper {
 		
 		public APIResponseBuilder() {
 			httpStatus = NO_CONTENT;
-			httpHeaders = APIControllerHelper.DEFAULT_HEADERS_JSON;
+			httpHeaders = DEFAULT_HEADERS_JSON;
 			envelope = new ResponseEnvelope<T>();
 			envelope.setStatus(this.httpStatus.value());
 			envelope.setCode(127);

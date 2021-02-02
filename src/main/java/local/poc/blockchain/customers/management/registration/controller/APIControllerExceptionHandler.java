@@ -2,6 +2,7 @@ package local.poc.blockchain.customers.management.registration.controller;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.CONFLICT;
+import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.HttpStatus.GONE;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
@@ -22,6 +23,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.lang.Nullable;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -42,6 +45,7 @@ import local.poc.blockchain.customers.management.registration.service.error.Natu
 import local.poc.blockchain.customers.management.registration.service.error.ReferencesServiceError;
 import local.poc.blockchain.customers.management.registration.service.error.ServiceError;
 import local.poc.blockchain.customers.management.registration.service.error.UserServiceError;
+import local.poc.blockchain.customers.management.registration.service.exception.AdminServiceException;
 import local.poc.blockchain.customers.management.registration.service.exception.NaturalPersonServiceException;
 import local.poc.blockchain.customers.management.registration.service.exception.ReferencesServiceException;
 import local.poc.blockchain.customers.management.registration.service.exception.UserServiceException;
@@ -143,6 +147,22 @@ public class APIControllerExceptionHandler extends ResponseEntityExceptionHandle
         				  .code(22)
         				  .badRequest()
         				  .responseEntity(Object.class);
+    }
+	
+	
+	@ExceptionHandler(value = {AccessDeniedException.class})
+    @ResponseStatus(value = FORBIDDEN)
+    public ResponseEntity<Object>
+	handleAccessDeniedException(AccessDeniedException ex,
+								  WebRequest request) {
+		String devMsg = generateDevMsg(request);
+		LOGGER.error(devMsg + " ;;; " + ex.getMessage(), ex);
+		String payload = "Forbidden. You are not allowed to access to this resource";
+		return APIResponse.payload(payload)
+						  .devMsg(devMsg)
+						  .code(126)
+						  .forbidden()
+						  .responseEntity(Object.class);
     }
 	
 	@Override
@@ -289,6 +309,40 @@ public class APIControllerExceptionHandler extends ResponseEntityExceptionHandle
 						  .devMsg(devMsg)
 						  .status(status)
 						  .responseEntity(Object.class);
+	}
+	
+	@ExceptionHandler(value = {AdminServiceException.class})
+    public ResponseEntity<Object>
+	handleReferencesServiceException(AdminServiceException ex,
+									 WebRequest request) {
+		ServiceError  serviceError = ex.getServiceError();
+		ReferencesServiceError err = ReferencesServiceError.resolve(serviceError);
+		HttpStatus status = INTERNAL_SERVER_ERROR;
+		String devMsg = "N/A";
+		String payload = ex.getMessage();
+		switch(err) {
+		case UNEXPECTED_ERROR:
+		default:
+			devMsg = generateDevMsg(request);
+			LOGGER.error(devMsg + " ;;; " + ex.getMessage(), ex);
+			payload = "Internal error for admin opeartions. Please, contact the administrator if you are not the administrator and see this message.";
+			status = INTERNAL_SERVER_ERROR;
+			break;
+		}
+		return APIResponse.payload(payload)
+				  .devMsg(devMsg)
+				  .status(status)
+				  .responseEntity(Object.class);
+	}
+	
+	@ExceptionHandler(value = {AuthenticationException.class})
+    public ResponseEntity<Object>
+	handleAuthenticationException(AuthenticationException ex,
+									 WebRequest request) {
+		return APIResponse.payload("User still pending of authentication.")
+				  .devMsg("N/A")
+				  .unAuthorized()
+				  .responseEntity(Object.class);
 	}
 	
 	private String generateDevMsg(WebRequest request) {

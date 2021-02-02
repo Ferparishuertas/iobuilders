@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class OptionsDTO {
+public class OptionDTO {
 	
 	@JsonProperty("option")
 	private String option;

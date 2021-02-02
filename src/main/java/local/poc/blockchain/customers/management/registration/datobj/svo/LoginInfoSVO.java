@@ -13,4 +13,6 @@ public class LoginInfoSVO {
 
 	private String mobile;
 	
+	private String description;
+	
 }

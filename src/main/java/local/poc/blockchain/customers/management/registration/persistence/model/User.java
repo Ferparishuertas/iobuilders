@@ -81,7 +81,7 @@ public class User implements UserDetails {
 					 joinColumns = @JoinColumn(name = "user_id"))
 	@Column(name = "authority")
 	@OrderColumn(name = "index")
-	private List<String> userAuthorities = null;
+	private List<String> authorities = null;
 	
 	@NotNull
 	@Temporal(TemporalType.DATE)
@@ -106,7 +106,7 @@ public class User implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return userAuthorities.stream().map(GrantedAuthorityAux::new).collect(Collectors.toList());
+		return authorities.stream().map(GrantedAuthorityAux::new).collect(Collectors.toList());
 	}
 
 	@Override

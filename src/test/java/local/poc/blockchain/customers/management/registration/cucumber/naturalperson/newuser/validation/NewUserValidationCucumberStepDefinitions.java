@@ -31,7 +31,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.cucumber.spring.CucumberContextConfiguration;
-import local.poc.blockchain.customers.management.registration.cucumber.naturalperson.newuser.common.NewUserCandidate;
+import local.poc.blockchain.customers.management.registration.cucumber.naturalperson.newuser.common.UserCandidate;
 import local.poc.blockchain.customers.management.registration.cucumber.util.RegistrationHttpClient;
 
 @CucumberContextConfiguration
@@ -44,7 +44,7 @@ public class NewUserValidationCucumberStepDefinitions {
 	private RegistrationHttpClient httpClient;	
 	
 	// @Autowired
-	private NewUserCandidate newUserCandidate = new NewUserCandidate();
+	private UserCandidate newUserCandidate = new UserCandidate();
 	
 	private String loadNewCandidate() throws IOException {
 		File file = ResourceUtils.getFile("classpath:test_data/natural_person/validation/user/new_user.json");

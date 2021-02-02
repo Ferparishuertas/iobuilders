@@ -4,6 +4,7 @@ import static local.poc.blockchain.customers.management.registration.controller.
 import static local.poc.blockchain.customers.management.registration.controller.APIControllerHelper.userPersonInfoDTOtoSVO;
 import static local.poc.blockchain.customers.management.registration.controller.APIControllerHelper.userPersonInfoSVOtoDTO;
 
+import java.security.Principal;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,7 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 import local.poc.blockchain.customers.management.registration.appevent.OnRegistrationNaturalPersonCompleteEvent;
 import local.poc.blockchain.customers.management.registration.controller.APIControllerHelper.APIResponse;
 import local.poc.blockchain.customers.management.registration.datobj.dto.OptionListUserPersonDTO;
-import local.poc.blockchain.customers.management.registration.datobj.dto.OptionsDTO;
+import local.poc.blockchain.customers.management.registration.datobj.dto.OptionDTO;
 import local.poc.blockchain.customers.management.registration.datobj.dto.ResponseEnvelope;
 import local.poc.blockchain.customers.management.registration.datobj.dto.UserPersonInfoDTO;
 import local.poc.blockchain.customers.management.registration.datobj.svo.OptionListUserPersonSVO;
@@ -63,9 +64,9 @@ public class APIController {
 	getRegistrationMain(
 			@PathVariable("unit") @Valid @UnitIsPresent String unit) {
 		LOGGER.info(" * getRegistrationMain invoked *");
-		List<OptionsDTO> options = Arrays.asList(
-			new OptionsDTO("person", "#/ureg/v1/" + unit + "/person"),
-			new OptionsDTO("corporation", "#/ureg/v1/" + unit + "/corporation")
+		List<OptionDTO> options = Arrays.asList(
+			new OptionDTO("person", "#/ureg/v1/" + unit + "/person"),
+			new OptionDTO("corporation", "#/ureg/v1/" + unit + "/corporation")
 		);
 		return APIResponse.payload(options).code(0).ok().build();
 	}
@@ -75,9 +76,9 @@ public class APIController {
 	public ResponseEntity<ResponseEnvelope<?>> getRegistrationPerson(
 			@PathVariable("unit") @UnitIsPresent String unit) {
 		LOGGER.info(" * getRegistrationPerson invoked *");
-		List<OptionsDTO> options = Arrays.asList(
-			new OptionsDTO("new", "#/ureg/v1/" + unit + "/person/new"),
-			new OptionsDTO("list", "#/ureg/v1/" + unit + "/person/list")
+		List<OptionDTO> options = Arrays.asList(
+			new OptionDTO("new", "#/ureg/v1/" + unit + "/person/new"),
+			new OptionDTO("list", "#/ureg/v1/" + unit + "/person/list")
 		);
 		return APIResponse.payload(options).code(0).ok().build();
 	}
@@ -152,15 +153,23 @@ public class APIController {
     	return APIResponse.payload(usersDTO).code(0).ok().build();
 	}
 	
-	// @PreAuthorize("hasRole('ADMIN') or hasRole('USER_NATURAL_PERSON')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('USER_NATURAL_PERSON')")
 	@GetMapping(value = "/{unit}/person/list/{userAlias}",
 				produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ResponseEnvelope<?>>
 	getRegistrationPersonRegInfo(
 			@PathVariable("unit") @UnitIsPresent String unit,
-			@PathVariable("userAlias") String userAlias)
-					throws NaturalPersonServiceException {
+			@PathVariable("userAlias") String userAlias,
+			HttpServletRequest request)
+					throws UserServiceException, NaturalPersonServiceException {
 		LOGGER.info(" * getRegistrationPersonRegInfo invoked *");
+		Principal principal = request.getUserPrincipal();
+		String userName = principal.getName();
+		if(!userService.isAdminUser(userName) && !userName.equals(userAlias)) {
+			throw new SecurityException(
+				"The user " + userName + " is trying to access the info of user: "
+				+ userAlias + ".");
+		}
 		UserPersonInfoSVO userSVO = naturalPersonService.getUser(userAlias);
 	    UserPersonInfoDTO userDTO = userPersonInfoSVOtoDTO(userSVO);
 	    // TODO Review

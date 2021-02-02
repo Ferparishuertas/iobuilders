@@ -39,4 +39,8 @@ public class LoginInfoDTO {
 	@JsonProperty("mobile")
 	private String mobile = null;
 	
+	@Size(min = 0, max = 500)
+	@JsonProperty("description")
+	private String description = null;
+	
 }

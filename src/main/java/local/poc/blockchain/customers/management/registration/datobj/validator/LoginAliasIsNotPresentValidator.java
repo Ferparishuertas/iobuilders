@@ -16,8 +16,8 @@ implements ConstraintValidator<LoginAliasIsNotPresent, String> {
 	@Override
 	public boolean isValid(String value, ConstraintValidatorContext context) {
 		return value == null
-			   || !"admin".equals(value)
-			   || !userService.checkUserLoginAliasAndEmail(value, null);
+			   || (!"admin".equals(value)
+				   && !userService.checkUserLoginAliasAndEmail(value, null));
 	}
 
 }

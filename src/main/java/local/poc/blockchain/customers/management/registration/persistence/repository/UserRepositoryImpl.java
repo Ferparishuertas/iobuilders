@@ -2,5 +2,5 @@ package local.poc.blockchain.customers.management.registration.persistence.repos
 
 public class UserRepositoryImpl
 implements UserRepositoryCustom {
-
+	
 }

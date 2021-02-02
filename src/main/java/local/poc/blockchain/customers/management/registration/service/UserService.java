@@ -9,7 +9,7 @@ public interface UserService extends UserDetailsService {
 	/**
 	 * Returns if the user's alias and/or registration email address are present in the
 	 * system for the same user. You can check any of them separately or both at the
-	 * same time. In the latest case, the result will be false if any or the two are not
+	 * same time. In the latest case, the result will be false if any or both are not
 	 * present. By setting the parameters to the value you want to check they will be
 	 * considered. An <code>IllegalArgumentException</code> is thrown if both parameters
 	 * are null.
@@ -20,6 +20,15 @@ public interface UserService extends UserDetailsService {
 	 */
 	public Boolean checkUserLoginAliasAndEmail(String loginAlias, String loginEmail)
 	throws IllegalArgumentException;
+	
+	/**
+	 * Returns if the user whose alias is <code>loginAlias</code> is an administrator
+	 * or not.
+	 * @param loginAlias, the alias of the user.
+	 * @return <code>true</code>, if user is an administrator, else <code>false</code>.
+	 * @throws UserServiceException if the user does not exist in the system.
+	 */
+	public Boolean isAdminUser(String loginAlias) throws UserServiceException;
 	
 	/**
 	 * Records the verification <code>token</code> associated to the user's alias,

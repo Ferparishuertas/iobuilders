@@ -22,7 +22,8 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.cucumber.spring.CucumberContextConfiguration;
-import local.poc.blockchain.customers.management.registration.cucumber.naturalperson.newuser.common.NewUserCandidate;
+import local.poc.blockchain.customers.management.registration.cucumber.naturalperson.newuser.common.UserCandidate;
+import local.poc.blockchain.customers.management.registration.cucumber.naturalperson.newuser.common.UserCandidateMap;
 import local.poc.blockchain.customers.management.registration.cucumber.util.RegistrationHttpClient;
 import local.poc.blockchain.customers.management.registration.service.UserService;
 import local.poc.blockchain.customers.management.registration.service.exception.NaturalPersonServiceException;
@@ -40,8 +41,8 @@ public class NewUserRegistrationCucumberStepDefinitions {
 	@Autowired
 	private UserService userService;
 	
-	// @Autowired
-	private NewUserCandidate newUserCandidate = new NewUserCandidate();
+	@Autowired
+	private UserCandidateMap userCandidateMap;
 	
 	private String loadNewCandidate(String candidate) throws IOException {
 		File file = ResourceUtils.getFile("classpath:test_data/natural_person/registration/user/" + candidate + ".json");
@@ -64,7 +65,9 @@ public class NewUserRegistrationCucumberStepDefinitions {
 		}
 		assertThat(result).isNotNull();
 		LOGGER.info("The new canditate " + candidate + " fills the registration data");
+		UserCandidate newUserCandidate = new UserCandidate();
 		newUserCandidate.setJsonCandidateData(result);
+		userCandidateMap.put(candidate, newUserCandidate);
 	}
 	
 	@Given("The still pending of confirmation user {string}, he\\/she checks his\\/her token from his\\/her email.")
@@ -77,43 +80,79 @@ public class NewUserRegistrationCucumberStepDefinitions {
 			LOGGER.error("The candidate info could not be loaded.", e);
 		}
 		assertThat(jsonUserInfo).isNotNull();
-		newUserCandidate.setJsonCandidateData(jsonUserInfo);
+		UserCandidate userCandidate = userCandidateMap.get(candidate); 
+		userCandidate.setJsonCandidateData(jsonUserInfo);
 		String alias = jsonUserInfo.at("/loginInfo/alias").asText();
 		String token = userService.getVerificationToken(alias);
 		LOGGER.info("The user read the token from his/her email.");
-    	newUserCandidate.setToken(token);
+		userCandidate.setToken(token);
     	
 	}
 	
-	@When("The candidate sends the registration data")
-	public void the_candidate_sends_the_registration_data()
+	@Given("A current active user {string} who asks for his\\/her information without providing the JWT token")
+	public void a_current_active_user_who_asks_for_his_her_information_without_providing_the_jwt_token(String candidate)
 	throws IOException, InterruptedException {
-		String str = newUserCandidate.getJsonCandidateData().toString();
-		LOGGER.info("The candidate sends the registration data");
-		HttpResponse<?> response = httpClient.postNewPersonUser(str);
-		newUserCandidate.setResponseFromServer(response);
+		UserCandidate userCandidate = userCandidateMap.get(candidate);
+		String alias = userCandidate.getJsonCandidateData().get("loginInfo").get("alias").asText();
+		HttpResponse<?> response = httpClient.getUserInfo(alias, null);
+		userCandidate.setResponseFromServer(response);
 		assertThat(response).isNotNull();
 	}
 	
-	@When("The still pending of confirmation user sends a {string} token.")
-	public void the_still_pending_of_confirmation_user_sends_a_token(String correctness)
+	@Given("A current active user {string} logs in the system correcty and a JWT is given to him\\/her.")
+	public void a_current_active_user_logs_in_the_system_correcty_and_a_jwt_is_given_to_him_her(String user)
+	throws IOException, InterruptedException {
+		UserCandidate userCandidate = userCandidateMap.get(user);
+		String alias = userCandidate.getJsonCandidateData().get("loginInfo").get("alias").asText();
+		String password = userCandidate.getJsonCandidateData().get("loginInfo").get("password").asText();
+		HttpResponse<?> response = httpClient.askForJWT(alias, password);
+		userCandidate.setJwt(response.body().toString());
+		assertThat(response).isNotNull();
+	}
+	
+	@When("The candidate {string} sends the registration data")
+	public void the_candidate_sends_the_registration_data(String candidate)
+	throws IOException, InterruptedException {
+		UserCandidate userCandidate = userCandidateMap.get(candidate); 
+		String str = userCandidate.getJsonCandidateData().toString();
+		LOGGER.info("The candidate sends the registration data");
+		HttpResponse<?> response = httpClient.postNewPersonUser(str);
+		userCandidate.setResponseFromServer(response);
+		assertThat(response).isNotNull();
+	}
+	
+	@When("The still pending of confirmation user {string} sends a {string} token.")
+	public void the_still_pending_of_confirmation_user_sends_a_token(String candidate, String correctness)
 	throws NaturalPersonServiceException, UserServiceException, IOException, InterruptedException {
+		UserCandidate userCandidate = userCandidateMap.get(candidate); 
 		String token = null;
 	    if("right".equals(correctness)) {
-	    	token = newUserCandidate.getToken();
+	    	token = userCandidate.getToken();
 	    } else {
 	    	token = "00000000-0000-0000-0000-000000000000";
 	    }
 	    HttpResponse<?> response = httpClient.sendConfirmationToken(token);
-	    newUserCandidate.setResponseFromServer(response);
+	    userCandidate.setResponseFromServer(response);
 	    assertThat(response).isNotNull();
 	}
 	
-	@Then("The system returns an app envelop with: {string}, {string}, {int}, {int}, {string}")
-	public void the_system_returns_an_app_envelop_with
-	(String app, String version, Integer status, Integer code, String refPayload)
+	@When("He\\/she, {string}, asks for his personal information providing the JWT token")
+	public void he_she_asks_for_his_personal_information_providing_the_jwt_token(String user)
+	throws IOException, InterruptedException {
+		UserCandidate userCandidate = userCandidateMap.get(user);
+		String jwt = userCandidate.getJwt();
+		String alias = userCandidate.getJsonCandidateData().get("loginInfo").get("alias").asText();
+		HttpResponse<?> response = httpClient.getUserInfo(alias, jwt);
+		userCandidate.setResponseFromServer(response);
+		assertThat(response).isNotNull();
+	}
+	
+	@Then("The candidate {string} recieves an app envelop with: {string}, {string}, {int}, {int}, {string}")
+	public void the_candidate_recieves_an_app_envelop_with
+	(String candidate, String app, String version, Integer status, Integer code, String refPayload)
 			throws JsonMappingException, JsonProcessingException {
-		HttpResponse<?> response = newUserCandidate.getResponseFromServer();
+		UserCandidate userCandidate = userCandidateMap.get(candidate); 
+		HttpResponse<?> response = userCandidate.getResponseFromServer();
 		Object body = response.body();
 		assertThat(body).isNotNull();
 		JsonNode envelop = bodyToEnvelop(body);
@@ -129,7 +168,7 @@ public class NewUserRegistrationCucumberStepDefinitions {
 		assertThat(jsonResPayload.isNull()).isFalse();
 		JsonNode pendingPayload = pendingPayload(refPayload, jsonResPayload);
 		assertThat(pendingPayload).isNull();
-	}
+	}	
 	
 	private JsonNode bodyToEnvelop(Object body)
 	throws JsonMappingException, JsonProcessingException {

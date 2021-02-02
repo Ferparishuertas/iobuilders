@@ -1,6 +1,13 @@
 package local.poc.blockchain.customers.management.registration.service.impl;
 
+import static local.poc.blockchain.customers.management.registration.service.error.NaturalPersonServiceError.UNEXPECTED_ERROR;
+import static local.poc.blockchain.customers.management.registration.service.error.NaturalPersonServiceError.USER_LOGIN_ALIAS_OR_EMAIL_FOUND;
+import static local.poc.blockchain.customers.management.registration.service.error.NaturalPersonServiceError.USER_NOT_FOUND;
 import static local.poc.blockchain.customers.management.registration.util.Global.longDistantFutureDate;
+import static local.poc.blockchain.customers.management.registration.util.Global.ContactChannelType.CHANNEL_ADDRESS;
+import static local.poc.blockchain.customers.management.registration.util.Global.ContactChannelType.CHANNEL_EMAIL;
+import static local.poc.blockchain.customers.management.registration.util.Global.ContactChannelType.CHANNEL_MESSENGER;
+import static local.poc.blockchain.customers.management.registration.util.Global.ContactChannelType.CHANNEL_TELEPHONE;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,9 +49,7 @@ import local.poc.blockchain.customers.management.registration.persistence.reposi
 import local.poc.blockchain.customers.management.registration.persistence.repository.UserHolderPersonRepository;
 import local.poc.blockchain.customers.management.registration.persistence.repository.UserRepository;
 import local.poc.blockchain.customers.management.registration.service.NaturalPersonService;
-import local.poc.blockchain.customers.management.registration.service.error.NaturalPersonServiceError;
 import local.poc.blockchain.customers.management.registration.service.exception.NaturalPersonServiceException;
-import local.poc.blockchain.customers.management.registration.util.Global.ContactChannelType;
 
 @Service
 public class NaturalPersonServiceImpl implements NaturalPersonService {
@@ -65,6 +70,15 @@ public class NaturalPersonServiceImpl implements NaturalPersonService {
 	public Boolean registerNewUser(UserPersonInfoSVO userPersonInfo)
 	throws NaturalPersonServiceException {	
 		try {
+			LoginInfoSVO loginInfo = userPersonInfo.getLoginInfo();
+			boolean alreadyRegistered = userRepository.existsByLoginAlias(loginInfo.getAlias())
+										|| userRepository.existsByLoginEmail(loginInfo.getEmail());
+			if(alreadyRegistered) {
+				throw new NaturalPersonServiceException(
+					"Login alias or email currently used in the system.",
+					USER_LOGIN_ALIAS_OR_EMAIL_FOUND);
+			}
+			
 			PersonalInfoSVO personalInfo = userPersonInfo.getPersonalInfo();
 			
 			Person person = new Person();
@@ -74,22 +88,16 @@ public class NaturalPersonServiceImpl implements NaturalPersonService {
 			person.setMiddleName(personalInfo.getMiddleName());
 			person.setSurname1(personalInfo.getSurname1());
 			person.setSurname2(personalInfo.getSurname2());
-			
 			List<PersonNationality> nationalities = extractNationalities(personalInfo, person);
 			person.setNationalities(nationalities);
-			
 			List<ContactChannel> contactChannels = extractContactChannels(personalInfo, person);
 			person.setContactChannels(contactChannels);
-			
 			List<PersonOfficialDocument> officialDocuments =  extractOfficialDocuments(personalInfo, person);
 			person.setOfficialDocuments(officialDocuments);
-			
 			person.setDbReg(
 				new DBReg(getCurrentManager(), new Date(), null, null));
-			
 			person = personRepository.save(person);
 			
-			LoginInfoSVO loginInfo = userPersonInfo.getLoginInfo();
 			User user = new User();
 			user.setLoginAlias(loginInfo.getAlias());
 			user.setPassword(passwordEncoder.encode(loginInfo.getPassword()));
@@ -97,9 +105,10 @@ public class NaturalPersonServiceImpl implements NaturalPersonService {
 			user.setMobile(loginInfo.getMobile());
 			user.setExpirationDate(longDistantFutureDate());
 			user.setCredentialExpirationDate(longDistantFutureDate());
-			user.setUserAuthorities(Arrays.asList("USER", "USER_NATURAL_PERSON"));
+			user.setAuthorities(Arrays.asList("ROLE_USER", "ROLE_USER_NATURAL_PERSON"));
 			user.setEnabled(false);
 			user.setLocked(false);
+			user.setDescription(loginInfo.getDescription());
 			user.setDbReg(
 				new DBReg(getCurrentManager(), new Date(), null, null));
 			user = userRepository.save(user);
@@ -111,11 +120,13 @@ public class NaturalPersonServiceImpl implements NaturalPersonService {
 				new DBReg(getCurrentManager(), new Date(), null, null));
 			userHolder = userHolderPersonRepository.save(userHolder);
 		
+		} catch(NaturalPersonServiceException ex) {
+			throw ex;
 		} catch(Exception ex) {
 			throw new NaturalPersonServiceException(
 					"Unexpected error while registering a new natural person user.",
 					ex,
-					NaturalPersonServiceError.UNEXPECTED_ERROR);
+					UNEXPECTED_ERROR);
 		}
 		return true;
 	}
@@ -141,7 +152,7 @@ public class NaturalPersonServiceImpl implements NaturalPersonService {
 			throw new NaturalPersonServiceException(
 					"Unexpected error while getting the list of natural person users.",
 					ex,
-					NaturalPersonServiceError.UNEXPECTED_ERROR);
+					UNEXPECTED_ERROR);
 		}
 		return result;
 	}
@@ -150,11 +161,11 @@ public class NaturalPersonServiceImpl implements NaturalPersonService {
 	public UserPersonInfoSVO getUser(String userLoginAlias) throws NaturalPersonServiceException {
 		User user = userRepository.findOneByLoginAlias(userLoginAlias).orElseThrow(
 				() -> new NaturalPersonServiceException("General user not found",
-														NaturalPersonServiceError.USER_NOT_FOUND));
+														USER_NOT_FOUND));
 		UserHolderPerson userHolder = userHolderPersonRepository.findOneByUser(user);
 		if(userHolder == null) {
 			throw new NaturalPersonServiceException("Natural person user not found",
-													NaturalPersonServiceError.USER_NOT_FOUND);
+													USER_NOT_FOUND);
 		}
 		UserPersonInfoSVO result = null;
 		try {
@@ -166,7 +177,7 @@ public class NaturalPersonServiceImpl implements NaturalPersonService {
 			throw new NaturalPersonServiceException(
 					"Unexpected error while getting the list of natural person users.",
 					ex,
-					NaturalPersonServiceError.UNEXPECTED_ERROR);
+					UNEXPECTED_ERROR);
 		}
 		return result;
 	}
@@ -197,6 +208,7 @@ public class NaturalPersonServiceImpl implements NaturalPersonService {
 		result.setEmail(user.getLoginEmail());
 		result.setPassword("*****"); // Password should not be revealed.
 		result.setMobile(user.getMobile());
+		result.setDescription(user.getDescription());
 		return result;
 	}
 	
@@ -293,7 +305,7 @@ public class NaturalPersonServiceImpl implements NaturalPersonService {
 			if (ContactAddress.class.equals(clazz)) {
 				ContactAddress address = (ContactAddress)contactChannel;
 				ContactChannelAddressSVO addressSVO = new ContactChannelAddressSVO();
-				addressSVO.setChannel(ContactChannelType.CHANNEL_ADDRESS);
+				addressSVO.setChannel(CHANNEL_ADDRESS);
 				addressSVO.setCountry(address.getCountry().getValue());
 				addressSVO.setDescription(address.getDescription());
 				addressSVO.setLevel(address.getLevelPosition());
@@ -304,7 +316,7 @@ public class NaturalPersonServiceImpl implements NaturalPersonService {
 			} else if (ContactEmail.class.equals(clazz)) {
 				ContactEmail email = (ContactEmail)contactChannel;
 				ContactChannelEmailSVO emailSVO = new ContactChannelEmailSVO();
-				emailSVO.setChannel(ContactChannelType.CHANNEL_EMAIL);
+				emailSVO.setChannel(CHANNEL_EMAIL);
 				emailSVO.setDescription(email.getDescription());
 				emailSVO.setLevel(email.getLevelPosition());
 				// emailSVO.setType(null); // This channel does not have type.
@@ -313,7 +325,7 @@ public class NaturalPersonServiceImpl implements NaturalPersonService {
 			} else if (ContactMessenger.class.equals(clazz)) {
 				ContactMessenger messenger = (ContactMessenger)contactChannel;
 				ContactChannelMessengerSVO messengerSVO = new ContactChannelMessengerSVO();
-				messengerSVO.setChannel(ContactChannelType.CHANNEL_MESSENGER);
+				messengerSVO.setChannel(CHANNEL_MESSENGER);
 				messengerSVO.setDescription(messenger.getDescription());
 				messengerSVO.setLevel(messenger.getLevelPosition());
 				messengerSVO.setType(messenger.getProvider().getValue());
@@ -322,7 +334,7 @@ public class NaturalPersonServiceImpl implements NaturalPersonService {
 			} else if (ContactTelephone.class.equals(clazz)) {
 				ContactTelephone telephone = (ContactTelephone)contactChannel;
 				ContactChannelTelephoneSVO telephoneSVO = new ContactChannelTelephoneSVO();
-				telephoneSVO.setChannel(ContactChannelType.CHANNEL_TELEPHONE);
+				telephoneSVO.setChannel(CHANNEL_TELEPHONE);
 				telephoneSVO.setDescription(telephone.getDescription());
 				telephoneSVO.setLevel(telephone.getLevelPosition());
 				telephoneSVO.setType(telephone.getType().getValue());

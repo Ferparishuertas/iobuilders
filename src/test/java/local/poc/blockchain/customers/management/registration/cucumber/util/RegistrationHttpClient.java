@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
+import java.net.http.HttpRequest.Builder;
 import java.net.http.HttpResponse;
 import java.time.Duration;
 
@@ -20,8 +21,10 @@ public class RegistrationHttpClient {
 
     private final String SERVER_URL = "http://localhost";
     private final String REGISTRATION_ENDPOINT = "/ureg/v1";
+    private final String REGISTRATION_SERVICE_JWT_PASS = "/pass";
     private final String REGISTRATION_SERVICE_NEW_PERSON_USER = "/GLOBAL/person/new";
     private final String REGISTRATION_SERVICE_SEND_CONFIRMATION_TOKEN = "/GLOBAL/person/new/verification/registrationConfirm";
+    private final String REGISTRATION_SERVICE_PERSON_USER_INFO = "/GLOBAL/person/list";
 
     private static final HttpClient HTTP_CLIENT = HttpClient.newBuilder()
             .version(HttpClient.Version.HTTP_1_1)
@@ -55,6 +58,33 @@ public class RegistrationHttpClient {
 							                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
 							                .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
 							                .build();
+    	return HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
+    }
+    
+    
+    public HttpResponse<?> askForJWT(final String alias, final String password)
+    throws IOException, InterruptedException {
+    	HttpRequest request = HttpRequest.newBuilder()
+							    			.POST(HttpRequest.BodyPublishers.ofString(
+							    				"{\"alias\":\"" + alias + "\",\"password\":\"" + password + "\"}"))
+							                .uri(URI.create(thingsEndpoint(REGISTRATION_SERVICE_JWT_PASS)))
+							                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+							                .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
+							                .build();
+    	return HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
+    }
+
+    public HttpResponse<?> getUserInfo(final String alias, final String jwt)
+    throws IOException, InterruptedException {
+    	Builder builder = HttpRequest.newBuilder();
+    	builder.GET()
+    		   .uri(URI.create(thingsEndpoint(REGISTRATION_SERVICE_PERSON_USER_INFO + "/" + alias)))
+    		   .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+    		   .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
+    	if(jwt != null) {
+    		builder.header(HttpHeaders.AUTHORIZATION, "Bearer " + jwt);
+    	}
+    	HttpRequest request = builder.build();
     	return HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
     }
 
