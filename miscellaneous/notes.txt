@@ -1,0 +1,23 @@
+
+# DOCKER
+
+## POSTGRES
+
+https://hub.docker.com/_/postgres/
+
+docker pull postgres
+
+### docker run --name some-postgres -e POSTGRES_PASSWORD=mysecretpassword -d postgres
+### docker run -it --rm --network some-network postgres psql -h some-postgres -U postgres
+
+docker run --name regdb -p 5432:5432 -e POSTGRES_USER=regdb -e POSTGRES_PASSWORD=regdb -d postgres
+docker exec -it regdb /bin/bash
+
+
+
+# CODE GENERATION
+
+* From model folder, to generate repository package classes...
+ls -1 | cut -d '.' -f 1 | while read f; do printf "package local.poc.blockchain.customers.management.registration.persistence.repository;\n\n\npublic interface "$f"RepositoryCustom {\n\n}" >  ../repository/$f"RepositoryCustom.java"; done;
+ls -1 | cut -d '.' -f 1 | while read f; do printf "package local.poc.blockchain.customers.management.registration.persistence.repository;\n\nimport org.springframework.data.repository.CrudRepository;\nimport org.springframework.stereotype.Repository;\n\nimport local.poc.blockchain.customers.management.registration.persistence.model."$f";\n\n\n@Repository\npublic interface "$f"Repository\nextends CrudRepository<"$f", Long>, "$f"RepositoryCustom {\n\n}" >  ../repository/$f"Repository.java"; done;
+ls -1 | cut -d '.' -f 1 | while read f; do printf "package local.poc.blockchain.customers.management.registration.persistence.repository;\n\npublic class "$f"RepositoryImpl\nimplements "$f"RepositoryCustom {\n\n}" >  ../repository/$f"RepositoryImpl.java"; done;

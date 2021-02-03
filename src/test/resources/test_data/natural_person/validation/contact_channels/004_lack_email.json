@@ -1,0 +1,25 @@
+[{
+    "channel": "telephone",
+    "type": 1,
+    "value": "+349100001",
+    "level": 3
+},
+{
+    "channel": "telephone",
+    "type": 2,
+    "value": "+3466500001",
+    "level": 1
+},
+{
+    "channel": "messenger",
+    "type": 1,
+    "value": "+3466500001",
+    "level": 2
+},
+{
+    "channel": "address",
+    "value": "C/ NoName, 7, Madrid",
+    "postalCode": "28001",
+    "country": 724,
+    "level": 4
+}]
