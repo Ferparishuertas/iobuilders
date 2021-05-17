@@ -18,6 +18,8 @@ All the microservices are:
 - Wallet: tokenizer and blockchain actions. Also links 
 - Bank: aquirer and custody actions, communication with inversis.
 
+![Microservice architecture](IoBuilders.png)
+
 ## Frontend
 
 The mobile app should be available for iOS and Android. We should use a cross platform framework. React Native is suitable for our needs. 
