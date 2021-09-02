@@ -1,6 +1,6 @@
 # iobuilders
 
-(1) IDEAS Y PLANTEAMIENTO DEL PROYECTO
+## (1) IDEAS Y PLANTEAMIENTO DEL PROYECTO
 
 -En general para el desarrollo de este proyecto, nos encontramos con dos principales riesgos, uno de ellos es la seguridad de los datos y transacciones, y el otro la funcionalidad de transformar moneda fiduciaria a token cumpliendo las legislaciones actuales del mercado monetario y bancarias.
 
@@ -16,7 +16,7 @@
 
 -Para el despliegue de la aplicación en fase de producción y el almacenamiento de los servicios se recurrirá a la plataforma de AWS.
 
-(2) EQUIPO Y ROLES
+## (2) EQUIPO Y ROLES
 
 -Teniendo en cuenta el tiempo establecido para el desarrollo del proyecto, y sin conocer el presupuesto disponible, sugiero un equipo de 9 personas con los siguientes roles:
 
@@ -28,7 +28,7 @@
  - Experto en ciberseguridad
  - Experto en blockchain y dapps con conocimientos de banca y legislaciones.
 
-(3) CULTURA TECNOLÓGICA Y METODOLOGÍAS
+## (3) CULTURA TECNOLÓGICA Y METODOLOGÍAS
 
 -Respecto a la metodología de trabajo aplicaría la metodología Agile Scrum, con sprints de 2 semanas, y reuniones diarias con el equipo. Todo se organizaría en una plataforma como Jira.
 
