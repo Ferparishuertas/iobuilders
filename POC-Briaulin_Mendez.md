@@ -2,7 +2,6 @@
 
 ## Resumen
 
----
 
 ### **Introcucción**
 
@@ -20,7 +19,6 @@ Es por esto que se decide hacer el desarrollo con tecnologías híbridas.
 
 ## Arquitectura
 
----
 
 La arquitectura de software describe sus componentes principales, sus relaciones y cómo interactúan entre sí proporcionando una abstracción para gestionar la complejidad del sistema, estableciendo comunicación y coordinación entre componentes. Puntos claves:
 
@@ -43,7 +41,6 @@ _Esta arquitectura funciona sobre un modelo de solicitud respuesta. El cliente e
 
 ## Tecnologías
 
----
 
 - **Front end**: **React Native** es un framework para crear aplicaciones híbridas que está basado en javascript. Actualmente es uno de los más populares y cuenta con una gran comunidad de desarrollo. Al ser híbrida nos ahorrará tiempo y dinero, al ser una tecnología con mucha popularidad será fácil contratar recursos humanos para el desarrollo, está respaldada por facebook por lo tanto nos da una garantía de que podremos generar un producto de calidad, tiene una comunidad muy activa y nos compila el proyecto en código nativo. Por todas estas razones react native es hoy en día la mejor alternativa para desarrollar la aplicación.
 
@@ -78,7 +75,6 @@ _Esta arquitectura funciona sobre un modelo de solicitud respuesta. El cliente e
 
 ## Equipo
 
----
 
 Para el desarrollo del POC se necesitarán profesionales experimentados en las distintas áreas:
 
@@ -93,7 +89,6 @@ Para el desarrollo del POC se necesitarán profesionales experimentados en las d
 
 ## Metodología
 
----
 
 Scrum es un modelo de desarrollo de _software_ que posibilita paso a paso establecer de manera exitosa y organizada los proyectos. Puntos fuertes de esta metodología:
 
@@ -108,7 +103,6 @@ Scrum es un modelo de desarrollo de _software_ que posibilita paso a paso establ
 
 ## Cultura
 
----
 
 El equipo debe tener una cultura _agile_. Es un modelo de desarrollo colaborativo basado en frecuentes entregas incrementales e iterativas con feedback. Todas las personas de cada equipo son responsables de identificar los vacíos e ineficiencias en las actividades del día a día y estarán habilitadas para sugerir mejoras que puedan aplicarse en su área. Trabajarán juntos para resolver problemas. El proyecto se realizará en 16 sprints de una semana cada uno. Se establecerán reuniones diarias de no más de 15 minutos para que cada miembro del equipo pueda realizar una breve síntesis de lo que cree más importante para lograr sincronizarse con el resto de sus compañeros. En el último día de sprint se hará una breve demostración de lo logrado hasta la fecha y luego una reunión de no más de 2 horas de lo que se ha hecho bien y en lo que ha fallado en el sprint en curso y qué debemos mejorar en el sprint siguiente.
 
