@@ -9,6 +9,7 @@
 - [Costs](#costs)
 - [Risks](#risks)
 - [Culture](#culture)
+- [External references](#external-references)
 
 
 # Introduction
