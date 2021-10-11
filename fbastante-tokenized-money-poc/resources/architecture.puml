@@ -1,0 +1,62 @@
+@startuml
+
+actor "user"
+cloud "Alastria"
+cloud "Alastria "
+cloud "Iberpay"
+cloud "Inversis"
+cloud "Momopocket"
+
+component "EDE API microservices" {
+  component "Notifications-API"
+  component "Queries-API"
+  component "Operations-API"
+}
+
+frame "Mobile-Application" {
+  component "Wallet-Notifications"
+  component "Wallet-Registration"
+  component "Wallet-Operations"
+  component "Wallet-Queries"
+}
+
+component "Custody" {
+  database "Custody database"
+}
+
+component "Tokenizer" {
+  queue "Operations topics"
+  component "Tokenizer microservices"
+}
+
+[Queries-API] -[hidden]right-> [Notifications-API]: "               "
+[Notifications-API] -[hidden]right-> [Operations-API]: "       "
+[Wallet-Queries] -[hidden]right-> [Wallet-Notifications]: "         "
+[Wallet-Notifications] -[hidden]right-> [Wallet-Operations]: " "
+
+[user] -down-> [Wallet-Operations]
+[user] -down-> [Wallet-Queries]
+[user] -down-> [Wallet-Notifications]
+[user] -down-> [Wallet-Registration]
+[Wallet-Registration] -down-> [Alastria]
+
+[Wallet-Queries] -right-> [Queries-API]
+[Queries-API] -down-> [Custody database]
+[Queries-API] -left-> [Alastria ]: "         "
+
+[Wallet-Operations] -down-> [Operations-API]
+[Operations-API] -down-> [Operations topics]
+[Operations-API] -right-> [Alastria]: "              "
+[Operations topics] -left-> [Tokenizer microservices]
+
+
+[Tokenizer microservices] -left-> [Custody database]
+[Tokenizer microservices] -down-> [Inversis]
+[Tokenizer microservices] -down-> [Momopocket]
+[Tokenizer microservices] -down-> [Iberpay]
+
+[Tokenizer microservices] -left-> [Notifications-API]
+[Notifications-API] -up-> [Wallet-Notifications]
+
+
+@enduml
