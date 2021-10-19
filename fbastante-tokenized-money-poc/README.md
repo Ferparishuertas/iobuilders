@@ -5,7 +5,7 @@ This document describes my (Fernando Bastante Perez) answer to the
 [Tokenized Money POC](https://github.com/Ferparishuertas/iobuilders/wiki/IoBuilders-POC) from ioBuilders.
 
 
-#1 - Tech + Architecture
+# 1 - Tech + Architecture
 We are describing here the parts that need to be implemented by us for the Tokenized Money feature:
   * Mobile application 
   * EDE API microservices
@@ -29,8 +29,8 @@ need an on prem cluster or if we can use AWS (or another cloud) to deploy the Po
 we would use Elasticsearch to digest and store data + Kibana to visualize it. 
   
 
-###1.1 - Mobile application
-#####1.1.1 - Description and Components
+### 1.1 - Mobile application
+##### 1.1.1 - Description and Components
 The mobile application will be the frontend for the users. It will need some visual/GUI design/development to show all 
 the wallet information and options to the user. Internally, the application will need 4 modules to allow these
 operations:
@@ -40,14 +40,14 @@ operations:
   * Receive notifications from the EDE system (for example, when a transaction is actually done)
   
 
-#####1.1.2 - Tech
+##### 1.1.2 - Tech
 The Mobile Application will be implemented for iOS and Android as per requiements. We would need to check the best way 
 to design an implement a GUI application for both technologies. Both technologies will use the same API and the GUI
 should be similar, we could explore using tools like trigger.io to create the native application using common HTML.
 If they work fine for the PoC, we could save some development costs.
 
-###1.2 - EDE API
-#####1.2.1 - Description and Components
+### 1.2 - EDE API
+##### 1.2.1 - Description and Components
 This component will be an access layer for the mobile application or other systems using our tokenizer. All the elements
 in this component will be microservices. We are going to divide/group the interactions from the Mobile Application
 in two types:
@@ -69,22 +69,22 @@ So, we would have these groups/components:
     the Mobile Application. Initially, this group will be used only by the Tokenizer microservices to notify the
     Mobile Application of completed transactions.
 
-#####1.2.2 - Tech
+##### 1.2.2 - Tech
 As commented before, the microservices will be implemented using Spring Boot and will run in a kubernetes cluster. We 
 can do the load balancing and failover using services and health check probes from kubernetes. Initially, we would use
 the same kubernetes namespace for the 3 API groups and one kubernetes deployment per microservice (we probably would
 have more than 1 microservice per API group). However, if the number of microservices per group is too high, we could
 split and use one namespace per API group.
 
-#####1.2.3 - Checks to be done with the PoC
+##### 1.2.3 - Checks to be done with the PoC
 We would need to make further study to propose a number of microservices in each group. Additionally, it's something
 that could change as we go further with the development. We would start with a number of microservices with some API
 calls, but it's pretty probable that additional calls will appear during the development, and the number of
 microservices in each group could increase.
   
 
-###1.3 - EDE Core
-#####1.3.1 - Description and Components
+### 1.3 - EDE Core
+##### 1.3.1 - Description and Components
 This component will be the core of our EDE System. It would contain all the tokenizer logic and the storage of the 
 transactions that are already completed or failed. The entry for the system will be a group of Kafka topics, used to 
 store and transport the transaction operations from the Operations API to the tokenizer microservices.
@@ -101,7 +101,7 @@ not acknowledged, so it goes to a Dead Letter Queue to retry it within some time
 
 The Kafka topics should use some grouping and partitioning to ensure that operations from a user are processed in order.
 
-#####1.2.2 - Tech
+##### 1.2.2 - Tech
 As we had with the API microservices, the tokenizer would be implemented using Spring Boot and deployed with kubernetes.
 We would use another namespace for the tokenizer microservices and, as we had for the API groups, one kubernetes
 deployment per tokenizer microservice (assuming that we will have more than 1 type of microservice here).
@@ -117,15 +117,15 @@ cloud, dedicated instances. We would also need to consider high availability and
 choosing between different providers.
 
 
-#####1.2.3 - Checks to be done with the PoC
+##### 1.2.3 - Checks to be done with the PoC
 The first area where we would need to do some research is regarding the retries of the failure transactions. We will
 need to check that the Dead Letter Queue is a valid mechanism and define time between retries, the number of retries
 before the transaction is finally dropped and marked as failed, etc. 
 We would also need to do some further study to check that we really have atomic transactions using this mechanism or if 
 we need to change something.
 
-###1.4 - Auditing system
-#####1.4.1 - Description and Components
+### 1.4 - Auditing system
+##### 1.4.1 - Description and Components
 The auditing system would be a non-functional piece, that would be storing events, transactions  and logs that take 
 place in the EDE system. It will be an Elasticsearch engine for digesting and storing data and Kibana to visualize it.
 
@@ -138,7 +138,7 @@ at specific points of the API calls/tokenizer flows. The microservices would sen
 topics and we would use a Kafka Connector to send it to logstash or directly to an Elasticsearch index.
 
 
-#2 - Team
+# 2 - Team
 We would need to re-evaluate this once we do further study for the number of calls, number of microservices, etc. For 
 the moment, as it's a PoC, we will assume that we will have only one microservice per type:
   * 1 Queries API
@@ -169,7 +169,7 @@ For the development team, we should consider dividing it in 2 separate "sub-team
     Docker and Kubernetes experience.
 
 
-#3 - Culture
+# 3 - Culture
 The development of the PoC should be a collaborative project. All the people involved in the PoC should work as a team,
 there shouldn't be any team separation between mobile/microservices/deployments. When looking for solutions, all
 the people should focus on reaching the best solution in a global way, not the one that is easier for "my team".
