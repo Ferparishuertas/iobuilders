@@ -87,12 +87,11 @@ En principio para la PoC se van a usar los eventos como registro de auditoría. 
 
 ### Subsistema de gobernanza
 
-Será el encargado de la gestión de alto nivel de la plataforma. Determinará quien deja de tener acceso o lo recupera en función de las circunstancias. Si se detectar un uso de la plataforma sospechoso por parte de un usuario, se le podría denegar el acceso o en casos extremos, se podría congelar el contrato de token para evitar que la gente pueda seguir utilizándolo.
-Las circunstancias pueden provenir de la captura de eventos o puede venir de acciones manuales de usuarios con suficientes permisos de acceso.
-
-### Aplicación de gestión
-
-TBD
+Será necesario incluir una aplicación Web de gestión de backend para monitorizar, alerta y poder revisar todo lo que sucede en la plataforma. El detalle de esta aplicación no queda reflejado en los requisitos de la PoC, pero de forma preliminar, podemos destacar:
+* Alertas / errores
+* Operaciones sospechosas sobre la plataforma. Detección y realizar acciones (automáticas o manuales)
+* Poder incluir a usuarios en una lista negra
+* Poder pausar el contrato de token si fuera neceasario
 
 ## EQUIPO
 
