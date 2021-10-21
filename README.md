@@ -96,7 +96,18 @@ Será necesario incluir una aplicación Web de gestión de backend para monitori
 
 ## EQUIPO
 
-TBD
+En el siguiente esquema podemos ver una estimación de los esfuerzos por cada tarea de alto nivel. Esta planificación se presenta a título informativo para poder revisar la estructura de trabajo, pues como se podrá comprobar más adelante, el modelo de trabajo que se propone es Scrum el cual choca con una planificación de este estilo. No obstante, permite hacernos una idea de los esfuerzos globales del proyecto.
+
+![Diagrama introduccuón](./resources/4.project.bmp)
+
+La planificación está planificada para 4 meses desde el comienzo de los trabajos.
+
+Los perfiles incluidos son:
+* CON - Consultor en el ámbito financiero y con conocimientos de Blockchain
+* PSMOV - Programador senior de aplicaciones móviles en ambos entornos (iOS y Android)
+* PSSM - Programador senior de contratos inteligentes y soluciones blockchain
+* DSBE - Desarrollador senior de backend con conocimiento en microservicios, docker/kubernetes, DevOps y NodeJs+Typescrip
+* CONCLOUD - Consultor de apoyo para la gestión y despliegue de la infraestructura virtualizada en la nube
 
 ### CULTURA Y ENTORNO MERODOLÓGICO
 
