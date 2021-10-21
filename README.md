@@ -98,7 +98,7 @@ Será necesario incluir una aplicación Web de gestión de backend para monitori
 
 En el siguiente esquema podemos ver una estimación de los esfuerzos por cada tarea de alto nivel. Esta planificación se presenta a título informativo para poder revisar la estructura de trabajo, pues como se podrá comprobar más adelante, el modelo de trabajo que se propone es Scrum el cual choca con una planificación de este estilo. No obstante, permite hacernos una idea de los esfuerzos globales del proyecto y las necesidades de recursos.
 
-![Diagrama introduccuón](./resources/4.project.bmp)
+![Diagrama](./resources/4.project.bmp)
 
 La planificación está estimada para 4 meses desde el comienzo de los trabajos.
 
