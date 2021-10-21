@@ -71,7 +71,7 @@ Este subsistema será el encargado de procesar las peticiones de los usuarios:
 * Operaciones con tokens,  para lo cual se recibirán transacciones ya firmadas desde la aplicación móvil si bien el acceso a esta API estará restringido por TOKENS, la firma de la transacción añadirá una capa más de segridad. El problema principal de este proceso es la atomicidad. Es necesario acceder a sistemas no integrados, como son el sistema de gestión bancaria por un lado y los sistemas de acceso a los contratos inteligentes por otro. Ello exigirá que el proceso sea totalmente tolerante a fallos para lo cual se propone usar contratos inteligentes parecidos a los HTLC usados para los atomics swaps. De esta forma sólo se completará la trasferencia de tokens cuando se verifique la operación en la cuenta ómnibus se ha realizado con éxito-
 * Para los movimientos de la cuenta de usuario a la cuenta ómnibus y viceversa, se usaría los sercicios de Momopocket, para la gestión de la cuenta omnibus, las APIs de Inversis y para el acceso a los accesos los contratos inteligentes, se usaría librerías estándar (Web3, Ethers…)
 * Operación de gestión de los fondos del contrato ERC20. Transferencias, aprobaciones…
-Se plantea alojar toda la lógica correspondiente a este subsistema en único microservicio. El API contrará TOKENS de autorización (no confundir con los tokens del contrato de token), y estará securizada mediante TLS. Asismo, deberá contar con mecanismos de quotas para evitar ataques DDoS. Dada la complejidad de todos estos desarrollos, se valoraría la utilización de un sistema de gestión de APIs como 3scale que permite de forma sencilla y en modo de pago por uso disponer de todos estos servicios. Si el PoC se quisiera desarrollar.
+Se plantea alojar toda la lógica correspondiente a este subsistema en único microservicio. El API contrará TOKENS de autorización (no confundir con los tokens del contrato de token), y estará securizada mediante TLS. Asismo, deberá contar con mecanismos de quotas para evitar ataques DDoS. Dada la complejidad de todos estos desarrollos, se valoraría la utilización de un sistema de gestión de APIs como 3scale que permite de forma sencilla y en modo de pago por uso disponer de todos estos servicios.
 Este subsistema será el responsable de monitorizar y validar las transacciones entre las cuentas bancarias y el contrato de token. Sólo cuando se verifique que los fondos bancarios han sido transferidos (desde o hacia la cuenta omnibus), se realizará la transferencia de token. En caso de no ser así, ordenará al contrato de token revertir la operación.
 
 ### Subistema de eventos (Auditoría)
@@ -81,9 +81,9 @@ Se plantean disponer de tres tipos de contenedores Docker:
 * Base de datos (una BBDD Postgres, por ejemplo)
 * RabitMQ
 * Eventeum
-Todos los eventos se registran en la cadena de bloques lo que constituye un registro inmutable de auditoría. Dado que es una PoC y que estamos buscando carriles rápidos, usaremos los eventos como auditoría. Si se considerara que la lógica de los contratos debe tener en cuenta los eventos de auditoría, la alternativa sería localizar el registro de eventos en contratos inteligentes.
+
 Para la el acceso la infraestructura Alastria, se optará por un clásico endpoint RPC que permita rastrear los eventos de los diferentes contratos. No obstante, es previsible que en las pruebas de carga de este subsistema se obtenga un bajo rendimiento. En ese caso, se deberá considerar el despliegue de un nodo completamente sincronizado contra la red Alastria para poder extraer todos los eventos.
-En principio para la PoC se van a usar los eventos como registro de auditoría. No obstante, si la lógica de los contratos hiciera necesario tomar decisiones en función de la auditoría, en ese caso este registro deberá ser incluido en un contrato inteligente. En este caso, para la gestión de los claims de identifiación, se podría usar el estándar ERC-735. En el caso del contrato de token, se tenndría que realizar un almacenamiento ad-hoc. En función de las pruebas de rendimiento y capacidad, se decidiría la mejor manera de almacenar este registro: un único contrato o distribuir la auditoría entre varios contratos. Quizá un único contrato asociado a la identidad del usuario que registre todas sus operaciones pueda ser requerido.
+Todos los eventos se registran en la cadena de bloques lo que constituye un registro inmutable de auditoría. Dado que es una PoC y que estamos buscando carriles rápidos, usaremos los eventos como auditoría. En principio para la PoC se van a usar los eventos como registro de auditoría. No obstante, si la lógica de los contratos hiciera necesario tomar decisiones en función de la auditoría, este registro deberá ser incluido en un contrato inteligente. Para ello, la gestión de los claims de identifiación, usaría el estándar ERC-735. En el caso del contrato de token, se tendría que realizar un almacenamiento ad-hoc que regitrara todas las transferencias y aprobaciones. En función de las pruebas de rendimiento y capacidad, se decidiría la mejor manera de almacenar este registro: un único contrato o distribuir la auditoría entre varios contratos. Quizá un único contrato asociado a la identidad del usuario que registre todas sus operaciones pueda ser mecesario.
 
 ### Subsistema de gobernanza
 
@@ -96,11 +96,11 @@ Será necesario incluir una aplicación Web de gestión de backend para monitori
 
 ## EQUIPO
 
-En el siguiente esquema podemos ver una estimación de los esfuerzos por cada tarea de alto nivel. Esta planificación se presenta a título informativo para poder revisar la estructura de trabajo, pues como se podrá comprobar más adelante, el modelo de trabajo que se propone es Scrum el cual choca con una planificación de este estilo. No obstante, permite hacernos una idea de los esfuerzos globales del proyecto.
+En el siguiente esquema podemos ver una estimación de los esfuerzos por cada tarea de alto nivel. Esta planificación se presenta a título informativo para poder revisar la estructura de trabajo, pues como se podrá comprobar más adelante, el modelo de trabajo que se propone es Scrum el cual choca con una planificación de este estilo. No obstante, permite hacernos una idea de los esfuerzos globales del proyecto y las necesidades de recursos.
 
 ![Diagrama introduccuón](./resources/4.project.bmp)
 
-La planificación está planificada para 4 meses desde el comienzo de los trabajos.
+La planificación está estimada para 4 meses desde el comienzo de los trabajos.
 
 Los perfiles incluidos son:
 * CON - Consultor en el ámbito financiero y con conocimientos de Blockchain
@@ -109,6 +109,8 @@ Los perfiles incluidos son:
 * DSBE - Desarrollador senior de backend con conocimiento en microservicios, docker/kubernetes, DevOps y NodeJs+Typescrip
 * CONCLOUD - Consultor de apoyo para la gestión y despliegue de la infraestructura virtualizada en la nube
 
+Exite un recurso adicional que no está reflejado en la planificación anterior, el responsable de proyecto que deberá realizar las tareas de coordinación, monitorización y reporting del proyecto.
+
 ### CULTURA Y ENTORNO MERODOLÓGICO
 
 En este punto resulta necesario resaltar dos cuestiones:
@@ -116,5 +118,5 @@ En este punto resulta necesario resaltar dos cuestiones:
 El uso de herramientas de comunicación y colaboración es crítico. Por destacar algunas:
     * Herramientas de comunicación o colaboración: Google Chat, Meet, Office 365
     * Herramientas de compartición de código: github, Gogs, etcétera
-* Por parte del responsable de proyecto / líder de grupo, la gestión de los RRHH en remoto requiere un sobreesfuerzo en la comunicación y un liderazgo claro.
+* Por parte del responsable de proyecto , la gestión de los RRHH en remoto requiere un sobreesfuerzo en la comunicación y un liderazgo claro.
 * Dado que se trata de una PoC y que la tecnología Blockchain se encuentra en continuo cambio, conviene optar por una metodología que aumente la flexibilidad del equipo de trabajo, razón por la cual, se recomienda Scrum.
