@@ -92,6 +92,7 @@ Será necesario incluir una aplicación Web de gestión de backend para monitori
 * Operaciones sospechosas sobre la plataforma. Detección y realizar acciones (automáticas o manuales)
 * Poder incluir a usuarios en una lista negra
 * Poder pausar el contrato de token si fuera neceasario
+* Informes de uso de la plataforma (transferencia de tokens, liquidez, entrada o salida de dinero...)
 
 ## EQUIPO
 
