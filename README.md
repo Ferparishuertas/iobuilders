@@ -18,8 +18,13 @@
 ### Backend
 
 - **Identity Service**
-    - Authentication server based on OAuth2 linked in some way with Alastria to provide a link between traditional app identity
-      and digital (blockchain) identity
+  - Functionality
+      - Authentication server based on OpenId Connect linked in some way with Alastria to provide a link between traditional app identity
+        and digital (blockchain) identity
+  - Tech
+    - Keycloak or other Auth server
+  - Risks
+    - Integration of this two technologies
 
 
 - **Wallet App service**
