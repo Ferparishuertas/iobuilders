@@ -1,0 +1,84 @@
+Exercise 1 - Lucas Nieto
+
+### **Tech + Architecture**
+
+#### **Tech risks**
+
+El principal riesgo a tener en cuenta sería la interacción con las terceras partes: Alastria, momopocket e Inversis. Se debe estudiar bien qué tipo de interfaces tienen y como deben ser usadas. También si tienen entornos de desarrollo para poder realizar pruebas. 
+
+Por otra parte, sería muy interesante poder contar con un equipo con conocimientos sobre blockchain y smartcontract, o al menos sería necesario que un miembro del equipo tuviese estos conocimientos y el resto del equipo se pudiese apoyar en él.
+
+#### **Architecture**
+
+Tres principales bloques de desarrollo: Mobile Wallet APP, librerías para conectar y operar con las terceras partes y backend (microservicios).
+
+**1.**  **Mobile Wallet**
+
+APPs nativas para iOS para Android o aplicación PWA (Progressive Web Apps) con Angular v13 o React v17 o Vue v3.
+
+Una PWD quizás para esta PoC sea más adecuada ya que sería más sencillo de implementar que dos APPs nativas. Por otra parte, de los tres framework mencionados, escogería React, ya que actualmente parece ser el framework más popular en España y esto facilitaría la búsqueda del perfil Frontend necesario. 
+
+**2.** **Librerías clientes**
+
+Librerías que implementasen las interfaces de las terceras partes con las que se debe trabajar. He identificado tres: Alastria, momopocket e Inversis.
+
+Las interfaces expuestas podrían ser de diferente tipo, lo normal es que sean servicios SOAP o RESTfull. Es importante estudiar dichas interfaces e implementar clientes que ayuden a usarlas, simplificando su uso tanto a nivel de funcionalidad como de seguridad (autenticación).
+
+**3.**  **Backend (microservicios)**
+
+El uso de microservicios sería adecuado para cumplir con los puntos descritos: reusabilidad, rendimiento, escalabilidad, aislamiento, despliegue rápido, etc.
+
+Como primer acercamiento se deberían crear estos tres microservicios para implementar la funcionalidad requerida en la PoC:
+
+o  *Identity service*: contendría la funcionalidad relacionada Identity (ERC725).
+
+o  *Wallet service*: funcionalidad relacionada con Wallet (ERC20)
+
+o  *Trasaction service*: funcionalidad relacionada con las transacciones.
+
+Para implementar estos microservicios veo adecuado usar Java 11 o 17, el framework Spring Boot con Sprint Cloud, Sprint security exponiendo interfaces API REST documentadas con Openapi. Para la persistencia de datos utilizaría PostgreSQL. Docker para la generación de imágenes
+
+Si se quiere añadir un poco de desafío se podrá usar otros frameworks como Quarkus o Micronaut, especialmente creados para microservicios pero que son menos conocidos.
+
+También puede ser interesante plantear el uso de eventos o basarnos en EDA (Event-Driven Architecture) por ejemplo con Apache Kafka, para comunicación entre microservicios, pero creo que para la PoC no sería necesario y añadiría algo más de complejidad.
+
+​	**Auditoría**:
+
+- Para recopilar las trazas generadas por los diferentes componentes, monitorizarlas y explotarlas se podría montar un ELK Stack o el servicio DataDog. Este último aporta más funcionalidades pero hay que tener en cuentas que son de pago.
+
+- Además, todos los microservicios tendrían su base de datos asociada donde se persistirá la información que se considere necesaria en forma de histórico.
+
+​     **Seguridad**:
+
+- API Gateway: El punto de acceso a los servicios se realizaría a través de una API Gateway, un Edge Server usando Netflix Zuul. De esta forma se filtrarían y redirigían todas las llamadas a los servicios del backend.
+
+- IAM: Para el control de acceso de usuarios a cada componente se usaría RBAC. Keycloak podría el IAM a configurar para gestionar los usuarios y roles y la autenticación y autorización con OAuth 2.0 y JWT.
+
+​    **Gestión de contenedores:**
+
+​      Los contenedores creados se gestionarían con Kubernetes. Todo ello en AWS o Azure.
+
+### **Team**
+
+- Un perfil "Scrum Master" que se encargue de gestionar, ayudar y facilitar el trabajo del resto del equipo y hacer de interlocutor con el cliente (Product Owner) o con tercerás partes. Deberá participar en las pruebas de la PoC. 
+- Un perfil sénior de Frontend con conocimientos de React y UX.
+
+​      **NOTA**: Si tienen que ser APP nativas serían dos perfiles, uno para iOS y otro para Android.
+
+- Dos perfiles Backend: 
+
+1. Uno sénior con conocimientos de Spring Boot, API REST, JPA, OAuth 2.0, Openapi, microservicios, DDD (domain-driven design), TDD (Test-Driven Development), Git.
+
+2. Otro junior (con experiencia): Spring Boot, API REST, JPA, TDD, Git.
+
+- Un perfil sénior de DevOps con conocimientos de CI/CD, AWS, Kubernetes, Docker, GitLab, Jenkins, SonarQube, ELK Stack, Keycloak (IAM)
+
+Sería interesante que de partida tuviesen conocimientos sobre el "mundo crypto": blockchain y smartcontract, ETH, etc. Si no, que tuviesen interés o una actitud proactiva para aprender sobre estos temas.
+
+### **Culture**
+
+Metodología Scrumban: daily, sprint (dos semanas), historias de usuario, etc. Tablero kanban en Trello.
+
+Usar Slack como aplicación de mensajería, reuniones, etc.
+
+Metodología de desarrollo de integración continua (CI/CD), con DDD (domain-driven design), TDD (Test-Driven Development).
