@@ -31,7 +31,7 @@ By focusing on a (micro) service-oriented architecture, other languages can be u
 
 For this case, it is proposed to use Gitlab, which is an open source project, with a large community and that allows us unlimited private repositories in addition to services for deployment. 
 
-### Patrones de Diseño
+### Design Patterns
 
 For a case like this, you need an architecture that can be scalable and event-oriented. For this, it is proposed to use the standards of the [Clean arquitecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html), the patterns of [Domain Driven Design](https://martinfowler.com/tags/domain%20driven%20design.html) and [Event Driven Architecture](https://aws.amazon.com/event-driven-architecture/).
 
