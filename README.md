@@ -3,7 +3,7 @@
 #	Técnología y Arquitectura
 ## Arquitectura
 Sistema cliente – servidor donde 
-la parte cliente será una aplicación móvil híbrida lo que nos permitirá con un solo desarrollo tener un completo entorno multilplataforma (a futuro y tras la POC se podría considerar realizar desarrollos nativos) y 
+la parte cliente será una aplicación móvil híbrida lo que nos permitirá con un solo desarrollo tener un completo entorno multilplataforma (a futuro y tras la POC se podría considerar realizar desarrollos nativos) y  
 la parte servidora se basará en una arquitectura de microservicios desplegados en nube pública.
 Constará de un api Gateway que procesará todas las llamadas desde la parte cliente y proveerá la seguridad por token.
 La comunicación entre los distintos microservicios se realizará a través de un bróker de mensajería
